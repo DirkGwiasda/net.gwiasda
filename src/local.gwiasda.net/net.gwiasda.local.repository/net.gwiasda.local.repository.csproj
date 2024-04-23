@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\net.gwiasda.fima.categories\net.gwiasda.fima.categories.csproj" />
     <ProjectReference Include="..\net.gwiasda.logging.contracts\net.gwiasda.logging.contracts.csproj" />
   </ItemGroup>
 
