@@ -1,1 +1,1 @@
-# net.gwiasda
+# local.gwiasda.net

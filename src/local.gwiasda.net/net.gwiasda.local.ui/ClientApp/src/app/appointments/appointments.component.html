@@ -1,0 +1,20 @@
+<h1>Termine</h1>
+<app-appointments-form (saved)="handleSaved()"></app-appointments-form>
+
+<hr />
+
+<table>
+  <ng-container *ngFor="let a of appointments">
+    <tr>
+      <td class="appointmentsTimeStamp">{{ a.timestamp }} Uhr</td>
+      <td class="appointmentsTitle">{{ a.title }}</td>
+      
+    </tr>
+    <tr>
+      <td class="appointmentsText" colspan="2">{{ a.additionalText }}</td>
+      <td class="appointmentsText">
+        <span style="font-size: 18pt;font-weight:300;" class="material-symbols-form-button material-symbols-rounded" (click)="delete(a.id)">delete</span>
+      </td>
+    </tr>
+  </ng-container>
+</table>

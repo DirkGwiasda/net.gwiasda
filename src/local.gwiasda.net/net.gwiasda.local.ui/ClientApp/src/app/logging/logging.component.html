@@ -1,0 +1,7 @@
+<h1>Logging</h1>
+
+  
+
+<app-logging-app-selection (deleteLog)="deleteLogs()" (selectedChange)="selectLogAppChanged($event)"></app-logging-app-selection>
+
+<app-logging-entries [appName]="selectedLogAppName" ></app-logging-entries>

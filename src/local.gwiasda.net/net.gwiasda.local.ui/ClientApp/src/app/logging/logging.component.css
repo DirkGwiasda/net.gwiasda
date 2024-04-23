@@ -1,0 +1,14 @@
+hr {
+  border-color: black;
+}
+
+.logAttributesContainer {
+  margin: 4px;
+  /*display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap:nowrap;*/
+}
+
+
+

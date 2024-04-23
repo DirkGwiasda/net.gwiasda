@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Net.Gwiasda.Logging</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\net.gwiasda.logging.contracts\net.gwiasda.logging.contracts.csproj" />
+    <ProjectReference Include="..\net.gwiasda.logging.model\net.gwiasda.logging.model.csproj" />
+  </ItemGroup>
+
+</Project>

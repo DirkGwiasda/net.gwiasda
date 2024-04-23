@@ -1,0 +1,25 @@
+.LogEntryAttributeTimeStamp {
+  color: grey;
+  font-size: 12px;
+}
+
+.LogEntryAttributeText {
+  color: #cccccc;
+  margin: 0px;
+  padding: 1px 2px 1px 2px;
+  border: 0px;
+  border-bottom: 1px solid #888888;
+  font-size: 18px;
+}
+
+.LogEntryAttributeName {
+  vertical-align: top;
+  color: grey;
+  font-size: 12px;
+  padding-right: 10px;
+}
+.LogEntryAttributeValue {
+  vertical-align: top;
+  color: lightslategrey;
+  font-size: 16px;
+}

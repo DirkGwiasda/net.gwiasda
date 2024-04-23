@@ -1,0 +1,27 @@
+
+
+<section tabindex="0" style="">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="type">
+      <td mat-cell *matCellDef="let entry" [class]="'LoggingType LoggingType' + entry.logType">{{ entry.logType}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <td mat-cell *matCellDef="let entry" class="LogEntry" style="width:800px">
+        <div class="LogTimeStamp">{{ entry.timestamp }}</div>
+        {{ entry.text }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="attributes">
+      <td mat-cell *matCellDef="let entry" class="LogAttributesInfo">
+        <span *ngIf="entry.attributes.length > 0" class="material-symbols-rounded">
+          list_alt
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showEntry(row)" class="LogEntryRow"></tr>
+
+  </table>
+</section>

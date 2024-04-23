@@ -1,0 +1,39 @@
+
+<table>
+  <tbody>
+    <tr>
+      <td class="formName">ID:</td>
+      <td class="formField"><label>{{appointment.id}}</label></td>
+    </tr>
+    <tr>
+      <td class="formName">Titel:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="appointment.title" /></td>
+    </tr>
+    <tr>
+      <td class="formName">Datum:</td>
+      <td class="formField">
+        <input type="text" [(ngModel)]="appointment.timestamp" [matDatepicker]="picker" style="width:84px;" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </td>
+    </tr>
+    <tr>
+      <td class="formName">Uhrzeit (HH:MM):</td>
+      <td class="formField">
+        <input type="text" [(ngModel)]="time" style="width:84px;" />
+      </td>
+    </tr>
+    <tr>
+      <td class="formName">Text:</td>
+      <td class="formField"><textarea class="formInput" [(ngModel)]="appointment.additionalText"></textarea></td>
+    </tr>
+    <tr>
+      <td class="formName">Google-Maps-Link:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="appointment.googleMapsLink" /></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span></td>
+    </tr>
+  </tbody>
+</table>
