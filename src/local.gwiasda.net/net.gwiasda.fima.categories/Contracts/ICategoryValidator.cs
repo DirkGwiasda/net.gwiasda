@@ -8,9 +8,6 @@ namespace Net.Gwiasda.FiMa
 {
     public interface ICategoryValidator
     {
-        void ValidateCostCategory(CostCategory costCategory);
-        void ValidateIncomeCategory(IncomeCategory incomeCategory);
+        void ValidateCategory(FinanceCategory category);
     }
-
-    
 }

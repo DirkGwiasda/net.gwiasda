@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Net.Gwiasda.FiMa
+﻿namespace Net.Gwiasda.FiMa
 {
     public class CategoryManager : ICategoryManager
     {
@@ -18,56 +11,28 @@ namespace Net.Gwiasda.FiMa
             _categoryValidator = categoryValidator ?? throw new ArgumentNullException(nameof(categoryValidator));
         }
 
-        public async Task<CostCategory> CreateCostCategoryAsync(CostCategory costCategory)
+        public async Task<T> CreateCategoryAsync<T>(T category) where T : FinanceCategory
         {
-            _categoryValidator.ValidateCostCategory(costCategory);
+            _categoryValidator.ValidateCategory(category);
 
-            return await _categoryRepository.CreateCostCategoryAsync(costCategory);
+            return await _categoryRepository.CreateCategoryAsync(category);
         }
 
-        public Task<IncomeCategory> CreateIncomeCategoryAsync(IncomeCategory incomeCategory)
-        {
-            _categoryValidator.ValidateIncomeCategory(incomeCategory);
+        public async Task DeleteCategoryAsync<T>(Guid id) where T : FinanceCategory
+         => await _categoryRepository.DeleteCategoryAsync<T>(id);
 
-            return _categoryRepository.CreateIncomeCategoryAsync(incomeCategory);
-        }
-
-        public async Task DeleteCostCategoryAsync(Guid id)
-         => await _categoryRepository.DeleteCostCategoryAsync(id);
-
-        public async Task DeleteIncomeCategoryAsync(Guid id)
-         => await _categoryRepository.DeleteIncomeCategoryAsync(id);
-
-        public async Task<IEnumerable<CostCategory>> GetCostCategoriesAsync()
+        public async Task<IEnumerable<T>> GetCategoriesAsync<T>() where T : FinanceCategory
         { 
-            var categories = await _categoryRepository.GetCostCategoriesAsync();
+            var categories = await _categoryRepository.GetCategoriesAsync<T>();
             return SortCategories(categories.ToList());
         }
 
-        public async Task<IEnumerable<IncomeCategory>> GetIncomeCategoriesAsync()
+        public async Task<T> UpdateCategoryAsync<T>(T category) where T : FinanceCategory
         {
-            var categories = await _categoryRepository.GetIncomeCategoriesAsync();
-            return SortCategories(categories.ToList());
+            _categoryValidator.ValidateCategory(category);
+
+            return await _categoryRepository.UpdateCategoryAsync(category);
         }
-
-        public async Task<CostCategory> UpdateCostCategoryAsync(CostCategory costCategory)
-        {
-            if(costCategory == null) throw new ArgumentNullException(nameof(costCategory));
-            if(string.IsNullOrWhiteSpace(costCategory.Name)) throw new ArgumentException("Cost category name must not be empty", nameof(costCategory.Name));
-            if(string.IsNullOrWhiteSpace(costCategory.Description)) throw new ArgumentException("Cost category description must not be empty", nameof(costCategory.Description));
-
-            return await _categoryRepository.UpdateCostCategoryAsync(costCategory);
-        }
-
-        public async Task<IncomeCategory> UpdateIncomeCategoryAsync(IncomeCategory incomeCategory)
-        {
-            if(incomeCategory == null) throw new ArgumentNullException(nameof(incomeCategory));
-            if(string.IsNullOrWhiteSpace(incomeCategory.Name)) throw new ArgumentException("Income category name must not be empty", nameof(incomeCategory.Name));
-            if(string.IsNullOrWhiteSpace(incomeCategory.Description)) throw new ArgumentException("Income category description must not be empty", nameof(incomeCategory.Description));
-
-            return await _categoryRepository.UpdateIncomeCategoryAsync(incomeCategory);
-        }
-
 
         private List<T> SortCategories<T>(List<T> categories) where T : FinanceCategory
         {

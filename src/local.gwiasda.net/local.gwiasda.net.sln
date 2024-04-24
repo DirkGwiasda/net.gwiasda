@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EE401942
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FiMa", "FiMa", "{13A9D849-706E-4F73-9A28-EAA95FB35804}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "net.gwiasda.fima.categories.tests", "net.gwiasda.fima.categories.tests\net.gwiasda.fima.categories.tests.csproj", "{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{BEDBA20C-6802-49FE-B739-E3EE2005ABD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEDBA20C-6802-49FE-B739-E3EE2005ABD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEDBA20C-6802-49FE-B739-E3EE2005ABD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{80D4A8EB-684E-4FFA-9498-8D33F780F741} = {7F1337D6-7C20-4C7F-B6F8-B62A23AE9B6F}
 		{BEDBA20C-6802-49FE-B739-E3EE2005ABD3} = {7F1337D6-7C20-4C7F-B6F8-B62A23AE9B6F}
 		{13A9D849-706E-4F73-9A28-EAA95FB35804} = {EE401942-DF48-4644-944F-6B635D49E9AC}
+		{00B12EC3-0E7B-4DAB-8AC0-9AB41EE7B91B} = {13A9D849-706E-4F73-9A28-EAA95FB35804}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AEE83DB8-D05A-409C-888D-BFC16253C8AE}
