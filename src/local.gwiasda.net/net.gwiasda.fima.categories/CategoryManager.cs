@@ -20,18 +20,14 @@ namespace Net.Gwiasda.FiMa
 
         public async Task<CostCategory> CreateCostCategoryAsync(CostCategory costCategory)
         {
-            if(costCategory == null) throw new ArgumentNullException(nameof(costCategory));
-            if(string.IsNullOrWhiteSpace(costCategory.Name)) throw new ArgumentException("Cost category name must not be empty", nameof(costCategory.Name));    
-            if(string.IsNullOrWhiteSpace(costCategory.Description)) throw new ArgumentException("Cost category description must not be empty", nameof(costCategory.Description));
+            _categoryValidator.ValidateCostCategory(costCategory);
 
             return await _categoryRepository.CreateCostCategoryAsync(costCategory);
         }
 
         public Task<IncomeCategory> CreateIncomeCategoryAsync(IncomeCategory incomeCategory)
         {
-            if(incomeCategory == null) throw new ArgumentNullException(nameof(incomeCategory));
-            if(string.IsNullOrWhiteSpace(incomeCategory.Name)) throw new ArgumentException("Income category name must not be empty", nameof(incomeCategory.Name));
-            if(string.IsNullOrWhiteSpace(incomeCategory.Description)) throw new ArgumentException("Income category description must not be empty", nameof(incomeCategory.Description));
+            _categoryValidator.ValidateIncomeCategory(incomeCategory);
 
             return _categoryRepository.CreateIncomeCategoryAsync(incomeCategory);
         }
@@ -43,10 +39,16 @@ namespace Net.Gwiasda.FiMa
          => await _categoryRepository.DeleteIncomeCategoryAsync(id);
 
         public async Task<IEnumerable<CostCategory>> GetCostCategoriesAsync()
-         => await _categoryRepository.GetCostCategoriesAsync();
+        { 
+            var categories = await _categoryRepository.GetCostCategoriesAsync();
+            return SortCategories(categories.ToList());
+        }
 
         public async Task<IEnumerable<IncomeCategory>> GetIncomeCategoriesAsync()
-         => await _categoryRepository.GetIncomeCategoriesAsync();
+        {
+            var categories = await _categoryRepository.GetIncomeCategoriesAsync();
+            return SortCategories(categories.ToList());
+        }
 
         public async Task<CostCategory> UpdateCostCategoryAsync(CostCategory costCategory)
         {
@@ -64,6 +66,32 @@ namespace Net.Gwiasda.FiMa
             if(string.IsNullOrWhiteSpace(incomeCategory.Description)) throw new ArgumentException("Income category description must not be empty", nameof(incomeCategory.Description));
 
             return await _categoryRepository.UpdateIncomeCategoryAsync(incomeCategory);
+        }
+
+
+        private List<T> SortCategories<T>(List<T> categories) where T : FinanceCategory
+        {
+            if(categories == null) throw new ArgumentNullException(nameof(categories));
+
+            var result = new List<T>();
+
+            SortByParent(categories, result, null);
+
+            return result;
+        }
+        private void SortByParent<T>(List<T> categories, List<T> sorted, Guid? parentId) where T : FinanceCategory
+        {
+            if(categories == null) throw new ArgumentNullException(nameof(categories));
+            if(sorted == null) throw new ArgumentNullException(nameof(sorted));
+
+            var childs = categories.Where(c => c.ParentId == parentId).ToList();
+            childs.Sort((c1, c2) => c1.Position.CompareTo(c2.Position));
+            foreach(var child in childs)
+            {
+                sorted.Add(child);
+                SortByParent(categories, sorted, child.Id);
+                categories.Remove(child);
+            }
         }
     }
 }

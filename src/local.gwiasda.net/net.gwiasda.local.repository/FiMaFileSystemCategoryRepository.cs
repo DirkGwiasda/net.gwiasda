@@ -12,113 +12,61 @@ namespace Net.Gwiasda.Local.Repository
 
         private readonly object _sync = new object();
 
-        public Task<CostCategory> CreateCostCategoryAsync(CostCategory costCategory)
+        public Task<T> CreateCategoryAsync<T>(T category) where T : FinanceCategory
         {
             lock(_sync)
             {
-                var costCategories = GetCostCategoriesAsync().Result.ToList();
-                costCategories.Add(costCategory);
-                WriteCostCategoriesToFile(costCategories);
+                var categories = GetCategoriesAsync<T>().Result.ToList();
+                categories.Add(category);
+                WriteCategoriesToFile(categories);
             }
-            return Task.FromResult(costCategory);
+            return Task.FromResult(category);
         }
 
-        public Task<IncomeCategory> CreateIncomeCategoryAsync(IncomeCategory incomeCategory)
-        {
-            lock (_sync)
-            {
-                var incomeCategories = GetIncomeCategoriesAsync().Result.ToList();
-                incomeCategories.Add(incomeCategory);
-                WriteIncomeCategoriesToFile(incomeCategories);
-            }
-            return Task.FromResult(incomeCategory);
-        }
-
-        public Task DeleteCostCategoryAsync(Guid id)
+        public Task DeleteCategoryAsync<T>(Guid id) where T : FinanceCategory
         {
             lock(_sync)
             {
-                var costCategories = GetCostCategoriesAsync().Result.ToList();
-                var costCategory = costCategories.FirstOrDefault(c => c.Id == id);
+                var categories = GetCategoriesAsync<T>().Result.ToList();
+                var costCategory = categories.FirstOrDefault(c => c.Id == id);
                 if(costCategory != null)
                 {
-                    costCategories.Remove(costCategory);
-                    WriteCostCategoriesToFile(costCategories);
+                    categories.Remove(costCategory);
+                    WriteCategoriesToFile(categories);
                 }
             }
             return Task.CompletedTask;
         }
 
-        public Task DeleteIncomeCategoryAsync(Guid id)
+        public async Task<IEnumerable<T>> GetCategoriesAsync<T>() where T : FinanceCategory
         {
-            lock(_sync)
-            {                 
-                var incomeCategories = GetIncomeCategoriesAsync().Result.ToList();
-                var incomeCategory = incomeCategories.FirstOrDefault(c => c.Id == id);
-                if(incomeCategory != null)
-                {
-                    incomeCategories.Remove(incomeCategory);
-                    WriteIncomeCategoriesToFile(incomeCategories);
-                }
-            }
-            return Task.CompletedTask;
+            var fileName = typeof(T) == typeof(CostCategory) ? GetCostCategoriesFileName() : GetIncomeCategoriesFileName();
+            var json = await File.ReadAllTextAsync(fileName);
+            var categories = JsonSerializer.Deserialize<IEnumerable<T>>(json);
+            return categories ?? new List<T>();
         }
 
-        public async Task<IEnumerable<CostCategory>> GetCostCategoriesAsync()
-        {
-            var json = await File.ReadAllTextAsync(GetCostCategoriesFileName());
-            var costCategories = JsonSerializer.Deserialize<IEnumerable<CostCategory>>(json);
-            return costCategories ?? new List<CostCategory>();
-        }
-
-        public async Task<IEnumerable<IncomeCategory>> GetIncomeCategoriesAsync()
-        {
-            var json = await File.ReadAllTextAsync(GetIncomeCategoriesFileName());
-            var incomeCategories = JsonSerializer.Deserialize<IEnumerable<IncomeCategory>>(json);
-            return incomeCategories ?? new List<IncomeCategory>();
-        }
-
-        public Task<CostCategory> UpdateCostCategoryAsync(CostCategory costCategory)
+        public Task<T> UpdateCategoryAsync<T>(T category) where T : FinanceCategory
         {
             lock (_sync)
             {
-                var costCategories = GetCostCategoriesAsync().Result.ToList();
-                var existingCostCategory = costCategories.FirstOrDefault(c => c.Id == costCategory.Id);
-                if (existingCostCategory != null)
+                var categories = GetCategoriesAsync<T>().Result.ToList();
+                var existingCategory = categories.FirstOrDefault(c => c.Id == category.Id);
+                if (existingCategory != null)
                 {
-                    costCategories.Remove(existingCostCategory);
-                    costCategories.Add(costCategory);
-                    WriteCostCategoriesToFile(costCategories);
+                    categories.Remove(existingCategory);
+                    categories.Add(category);
+                    WriteCategoriesToFile(categories);
                 }
             }
-            return Task.FromResult(costCategory);
+            return Task.FromResult(category);
         }
 
-        public Task<IncomeCategory> UpdateIncomeCategoryAsync(IncomeCategory incomeCategory)
+        private void WriteCategoriesToFile<T>(IEnumerable<T> categories)
         {
-            lock (_sync)
-            {
-                var incomeCategories = GetIncomeCategoriesAsync().Result.ToList();
-                var existingIncomeCategory = incomeCategories.FirstOrDefault(c => c.Id == incomeCategory.Id);
-                if (existingIncomeCategory != null)
-                {
-                    incomeCategories.Remove(existingIncomeCategory);
-                    incomeCategories.Add(incomeCategory);
-                    WriteIncomeCategoriesToFile(incomeCategories);
-                }
-            }
-            return Task.FromResult(incomeCategory);
-        }
-
-        private void WriteCostCategoriesToFile(IEnumerable<CostCategory> costCategories)
-        {
-            var json = JsonSerializer.Serialize(costCategories);
-            File.WriteAllText(GetCostCategoriesFileName(), json);
-        }
-        private void WriteIncomeCategoriesToFile(IEnumerable<IncomeCategory> incomeCategories)
-        {
-            var json = JsonSerializer.Serialize(incomeCategories);
-            File.WriteAllText(GetIncomeCategoriesFileName(), json);
+            var json = JsonSerializer.Serialize(categories);
+            var fileName = typeof(T) == typeof(CostCategory) ? GetCostCategoriesFileName() : GetIncomeCategoriesFileName();
+            File.WriteAllText(fileName, json);
         }
 
         private string GetBaseDirectory() => Path.Combine(RootDataDirectory, FiMaDirectory);

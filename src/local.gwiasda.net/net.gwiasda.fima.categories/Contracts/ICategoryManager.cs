@@ -2,14 +2,10 @@
 {
     public interface ICategoryManager
     {
-        Task<CostCategory> CreateCostCategoryAsync(CostCategory costCategory);
-        Task<IncomeCategory> CreateIncomeCategoryAsync(IncomeCategory incomeCategory);
-        Task DeleteCostCategoryAsync(Guid id);
-        Task DeleteIncomeCategoryAsync(Guid id);
-        Task<IEnumerable<CostCategory>> GetCostCategoriesAsync();
-        Task<IEnumerable<IncomeCategory>> GetIncomeCategoriesAsync();
-        Task<CostCategory> UpdateCostCategoryAsync(CostCategory costCategory);
-        Task<IncomeCategory> UpdateIncomeCategoryAsync(IncomeCategory incomeCategory);
+        Task<T> CreateCategoryAsync<T>(T category) where T : FinanceCategory;
+        Task DeleteCategoryAsync<T>(Guid id) where T : FinanceCategory;
+        Task<IEnumerable<T>> GetCategoriesAsync<T>() where T : FinanceCategory;
+        Task<T> UpdateCategoryAsync<T>(T category) where T : FinanceCategory;
         
     }
 }
