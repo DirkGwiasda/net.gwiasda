@@ -52,9 +52,6 @@ namespace Net.Gwiasda.Local.Repository
                 var logEntries = GetLogEntriesByAppName(logEntry.AppName);
                 logEntries.Add(logEntry);
 
-                if(!Directory.Exists(GetBaseDirectory()))
-                    Directory.CreateDirectory(GetBaseDirectory());
-
                 File.WriteAllText(GetFQFileName(logEntry.AppName), JsonSerializer.Serialize(logEntries));
             }
             return Task.CompletedTask;
@@ -63,15 +60,20 @@ namespace Net.Gwiasda.Local.Repository
         private List<LogEntry> GetLogEntriesByAppName(string appName)
         {
             string? json = null;
-               if (File.Exists(GetFQFileName(appName)))
-                    json = File.ReadAllText(GetFQFileName(appName));
+            if (File.Exists(GetFQFileName(appName)))
+                json = File.ReadAllText(GetFQFileName(appName));
             if(json == null)
                 return new List<LogEntry>();
 
             return JsonSerializer.Deserialize<List<LogEntry>>(json) ?? new List<LogEntry>();
         }
 
-        private string GetBaseDirectory() => Path.Combine(RootDataDirectory, LoggingDirectory);
+        private string GetBaseDirectory()
+        {
+            var dir = Path.Combine(RootDataDirectory, LoggingDirectory);
+            if(!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            return dir;
+        }
         private string GetFQFileName(string fileName) => Path.Combine(GetBaseDirectory(), $"{fileName}{FileExtension}");
     }
 }

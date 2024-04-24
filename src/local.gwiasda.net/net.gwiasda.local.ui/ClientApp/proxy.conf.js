@@ -7,7 +7,7 @@ const PROXY_CONFIG = [
   {
     context: [
       "/logging",
-      "/appointment",
+      "/fima",
    ],
     target: target,
     secure: false,

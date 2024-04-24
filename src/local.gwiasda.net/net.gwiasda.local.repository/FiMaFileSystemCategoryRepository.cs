@@ -41,6 +41,7 @@ namespace Net.Gwiasda.Local.Repository
         public async Task<IEnumerable<T>> GetCategoriesAsync<T>() where T : FinanceCategory
         {
             var fileName = typeof(T) == typeof(CostCategory) ? GetCostCategoriesFileName() : GetIncomeCategoriesFileName();
+            if(!File.Exists(fileName)) return new List<T>();
             var json = await File.ReadAllTextAsync(fileName);
             var categories = JsonSerializer.Deserialize<IEnumerable<T>>(json);
             return categories ?? new List<T>();
@@ -69,7 +70,12 @@ namespace Net.Gwiasda.Local.Repository
             File.WriteAllText(fileName, json);
         }
 
-        private string GetBaseDirectory() => Path.Combine(RootDataDirectory, FiMaDirectory);
+        private string GetBaseDirectory()
+        {
+            var dir = Path.Combine(RootDataDirectory, FiMaDirectory);
+            if(!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            return dir;
+        }
         private string GetCostCategoriesFileName() => Path.Combine(GetBaseDirectory(), CostCategoriesFileName);
         private string GetIncomeCategoriesFileName() => Path.Combine(GetBaseDirectory(), IncomeCategoriesFileName);
     }
