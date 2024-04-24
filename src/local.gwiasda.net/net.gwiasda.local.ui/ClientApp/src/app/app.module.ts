@@ -16,6 +16,7 @@ import { LogEntryDetailsComponent } from './logging/logging-entries/logentry-det
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { AppointmentsFormComponent } from './appointments/appointments-form/appointments-form.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { FiMaComponent } from './fima/fima.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     LogEntryDetailsComponent,
     AppointmentsComponent,
     AppointmentsFormComponent,
+    FiMaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,6 +42,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'logs', component: LoggingComponent, pathMatch: 'full' },
       { path: 'appointments', component: AppointmentsComponent, pathMatch: 'full' },
+      { path: 'finma', component: FiMaComponent, pathMatch: 'full' },
     ])
   ],
   providers: [

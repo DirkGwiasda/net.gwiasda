@@ -1,0 +1,8 @@
+<h1>Termine</h1>
+<table>
+  <ng-container *ngFor="let cat of costCategories">
+    <tr>
+      <td class="categoryName" [attr.title]="cat.description">{{ cat.name }}</td>
+    </tr>
+  </ng-container>
+</table>
