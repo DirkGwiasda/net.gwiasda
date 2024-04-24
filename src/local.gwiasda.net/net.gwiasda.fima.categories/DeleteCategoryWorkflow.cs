@@ -30,6 +30,7 @@ namespace Net.Gwiasda.FiMa.Categories
                 if (item == null) return;
 
                 categories.Remove(item);
+                RecalculatePositions(categories, category.ParentId, category.Position);
                 HandleChilds(categories, category);
 
                 await _categoryManager.UpdateCategoriesAsync(categories.Cast<CostCategory>().ToList());
@@ -43,6 +44,7 @@ namespace Net.Gwiasda.FiMa.Categories
                 if (item == null) return;
 
                 categories.Remove(item);
+                RecalculatePositions(categories, category.ParentId, category.Position);
                 HandleChilds(categories, category);
 
                 await _categoryManager.UpdateCategoriesAsync(categories.Cast<IncomeCategory>().ToList());
@@ -67,6 +69,13 @@ namespace Net.Gwiasda.FiMa.Categories
             {
                 base.CalculateHierarchy(categories, child);
                 RecalculateChildrenHistory(categories, child);
+            }
+        }
+        private void RecalculatePositions(List<FinanceCategory> categories, Guid? parentId, int deletedPosition)
+        {
+            foreach(var category in categories.Where(cat => cat.ParentId == parentId && cat.Position > deletedPosition))
+            {
+                category.Position--;
             }
         }
     }

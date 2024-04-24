@@ -75,8 +75,8 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 throw;
             }
         }
-
-        public async Task Delete(FinanceCategoryViewModel categoryViewModel)
+        [HttpPost]
+        public async Task Delete([FromBody] FinanceCategoryViewModel categoryViewModel)
         {
             try
             {
