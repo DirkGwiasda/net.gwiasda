@@ -12,7 +12,7 @@
         /// <param name="exception">The exception to log.</param>
         /// <param name="additionalData">Additional data to include in the log entry.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task InsertErrorAsync(string appName, Exception exception, Dictionary<string, string>? additionalData = null);
+        Task CreateErrorAsync(string appName, Exception exception, Dictionary<string, string>? additionalData = null);
 
         /// <summary>
         /// Inserts a debug log entry asynchronously.
@@ -21,7 +21,7 @@
         /// <param name="message">The log message.</param>
         /// <param name="additionalData">Additional data to include in the log entry.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task InsertDebugLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
+        Task CreateDebugLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
 
         /// <summary>
         /// Inserts an information log entry asynchronously.
@@ -30,7 +30,7 @@
         /// <param name="message">The log message.</param>
         /// <param name="additionalData">Additional data to include in the log entry.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task InsertInformationLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
+        Task CreateInformationLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
 
         /// <summary>
         /// Inserts a warning log entry asynchronously.
@@ -39,7 +39,7 @@
         /// <param name="message">The log message.</param>
         /// <param name="additionalData">Additional data to include in the log entry.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task InsertWarningLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
+        Task CreateWarningLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null);
 
         /// <summary>
         /// Gets the application names with log entries asynchronously.

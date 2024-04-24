@@ -13,14 +13,16 @@ namespace Net.Gwiasda.Local.UI.Controllers
         private const string APP_NAME = "FiMa";
         private readonly ILoggingManager _loggingManager;
         private readonly ICategoryManager _categoryManager;
-        private readonly ICategorySaveWorkflow _categorySaveWorkflow;
+        private readonly ISaveCategoryWorkflow _saveCategoryWorkflow;
+        private readonly IDeleteCategoryWorkflow _deleteCategoryWorkflow;
 
-        public FiMaController(ILoggingManager loggingManager, ICategoryManager categoryManager, ICategorySaveWorkflow categorySaveWorkflow)
+        public FiMaController(ILoggingManager loggingManager, ICategoryManager categoryManager, 
+            ISaveCategoryWorkflow saveCategoryWorkflow, IDeleteCategoryWorkflow deleteCategoryWorkflow)
         {
             _loggingManager = loggingManager ?? throw new ArgumentNullException(nameof(loggingManager));
             _categoryManager = categoryManager ?? throw new ArgumentNullException(nameof(categoryManager));
-            _categorySaveWorkflow = categorySaveWorkflow ?? throw new ArgumentNullException(nameof(categorySaveWorkflow));
-
+            _saveCategoryWorkflow = saveCategoryWorkflow ?? throw new ArgumentNullException(nameof(saveCategoryWorkflow));
+            _deleteCategoryWorkflow = deleteCategoryWorkflow ?? throw new ArgumentNullException(nameof(deleteCategoryWorkflow));
         }
 
         public Task<string> Ping()
@@ -37,7 +39,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync(APP_NAME, exc);
+                await _loggingManager.CreateErrorAsync(APP_NAME, exc);
                 throw;
             }
         }
@@ -50,7 +52,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync(APP_NAME, exc);
+                await _loggingManager.CreateErrorAsync(APP_NAME, exc);
                 throw;
             }
         }
@@ -63,27 +65,31 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 if (categoryViewModel == null) throw new ArgumentNullException(nameof(categoryViewModel));
                 var category = categoryViewModel.ToCategory();
 
-                category = await _categorySaveWorkflow.SaveAsync(category).ConfigureAwait(true);
+                category = await _saveCategoryWorkflow.SaveAsync(category).ConfigureAwait(true);
 
                 return new FinanceCategoryViewModel(category);
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync(APP_NAME, exc).ConfigureAwait(true);
+                await _loggingManager.CreateErrorAsync(APP_NAME, exc).ConfigureAwait(true);
                 throw;
             }
         }
-        //public async Task Delete(string? id)
-        //{
-        //    try
-        //    {
-        //        await _appointmentService.DeleteAsync(id).ConfigureAwait(true);
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        await _logService.CreateErrorAsync(LogApplication.Appointments, exc).ConfigureAwait(true);
-        //        throw;
-        //    }
-        //}
+
+        public async Task Delete(FinanceCategoryViewModel categoryViewModel)
+        {
+            try
+            {
+                if(categoryViewModel == null) throw new ArgumentNullException(nameof(categoryViewModel));
+                var category = categoryViewModel.ToCategory();
+
+                await _deleteCategoryWorkflow.DeleteAsync(category);
+            }
+            catch (Exception exc)
+            {
+                await _loggingManager.CreateErrorAsync(APP_NAME, exc).ConfigureAwait(true);
+                throw;
+            }
+        }
     }
 }

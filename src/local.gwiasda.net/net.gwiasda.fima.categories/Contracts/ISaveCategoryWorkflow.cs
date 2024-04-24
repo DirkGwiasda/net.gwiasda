@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Net.Gwiasda.FiMa
 {
-    public interface ICategorySaveWorkflow
+    public interface ISaveCategoryWorkflow
     {
         Task<FinanceCategory> SaveAsync(FinanceCategory category);
     }

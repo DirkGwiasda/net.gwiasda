@@ -28,4 +28,13 @@ export class FiMaDataService {
     const headers = this.getDefaultHeaders();
     return await this.http.get<FinanceCategory[]>('fima/GetIncomeCategories', { headers }).toPromise();
   }
+  async delete(category: FinanceCategory): Promise<void> {
+    const headers = this.getDefaultHeaders();
+    headers.set('Content-Type', 'application/json');
+    const url = 'fima/Delete';
+    console.log("deleting:");
+    console.log(category);
+
+    await this.http.post(url, category, { headers }).toPromise().catch(error => console.log(error));
+  }
 }

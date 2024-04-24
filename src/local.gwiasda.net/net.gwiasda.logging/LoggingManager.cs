@@ -28,10 +28,10 @@ namespace Net.Gwiasda.Logging
         public async Task<IReadOnlyCollection<LogEntry>> GetLogEntriesByAppNameAsync(string appName)
          => await _repository.GetLogEntriesByAppNameAsync(appName).ConfigureAwait(false);
 
-        public async Task InsertDebugLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
+        public async Task CreateDebugLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
             => await InsertLogEntryAsync(appName, message, LogType.Debug, additionalData).ConfigureAwait(false);
 
-        public async Task InsertErrorAsync(string appName, Exception exception, Dictionary<string, string>? additionalData = null)
+        public async Task CreateErrorAsync(string appName, Exception exception, Dictionary<string, string>? additionalData = null)
         {
             if(exception == null) throw new ArgumentNullException(nameof(exception));
 
@@ -39,13 +39,13 @@ namespace Net.Gwiasda.Logging
             await InsertLogEntryAsync(appName, exception.Message, LogType.Error, enrichedData).ConfigureAwait(false);
 
             if(exception.InnerException != null)
-                await InsertErrorAsync(appName, exception.InnerException, additionalData).ConfigureAwait(false);    
+                await CreateErrorAsync(appName, exception.InnerException, additionalData).ConfigureAwait(false);    
         }
 
-        public async Task InsertInformationLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
+        public async Task CreateInformationLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
             => await InsertLogEntryAsync(appName, message, LogType.Information, additionalData);
 
-        public async Task InsertWarningLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
+        public async Task CreateWarningLogEntryAsync(string appName, string message, Dictionary<string, string>? additionalData = null)
             => await InsertLogEntryAsync(appName, message, LogType.Warning, additionalData);
         
         private async Task InsertLogEntryAsync(string appName, string message, LogType logType, Dictionary<string, string>? additionalData = null)

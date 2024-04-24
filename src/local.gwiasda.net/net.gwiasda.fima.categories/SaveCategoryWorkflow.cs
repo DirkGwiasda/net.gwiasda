@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Net.Gwiasda.FiMa
 {
-    public class CategorySaveWorkflow : CategoryWorkflow, ICategorySaveWorkflow
+    public class SaveCategoryWorkflow : CategoryWorkflow, ISaveCategoryWorkflow
     {
         private readonly ICategoryValidator _categoryValidator;
         private readonly ICategoryManager _categoryManager;
 
-        public CategorySaveWorkflow(ICategoryValidator categoryValidator, ICategoryManager categoryManager)
+        public SaveCategoryWorkflow(ICategoryValidator categoryValidator, ICategoryManager categoryManager)
         {
             _categoryValidator = categoryValidator ?? throw new ArgumentNullException(nameof(categoryValidator));
             _categoryManager = categoryManager ?? throw new ArgumentNullException(nameof(categoryManager));
@@ -41,7 +41,7 @@ namespace Net.Gwiasda.FiMa
                 var incomeCategories = (await _categoryManager.GetCategoriesAsync<IncomeCategory>()).ToList();
                 var categories = incomeCategories.Cast<FinanceCategory>().ToList();
 
-                CalculateHierarchy(categories, category);
+                base.CalculateHierarchy(categories, category);
                 PrepareAndInsertCategory(categories, category);
 
                 await _categoryManager.UpdateCategoriesAsync(categories.Cast<IncomeCategory>().ToList());

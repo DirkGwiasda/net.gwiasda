@@ -25,7 +25,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync("Logging", exc).ConfigureAwait(true);
+                await _loggingManager.CreateErrorAsync("Logging", exc).ConfigureAwait(true);
                 throw;
             }
         }
@@ -40,7 +40,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync(appName, exc).ConfigureAwait(true);
+                await _loggingManager.CreateErrorAsync(appName, exc).ConfigureAwait(true);
                 throw;
             }
         }
@@ -53,7 +53,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
             }
             catch (Exception exc)
             {
-                await _loggingManager.InsertErrorAsync(appName, exc).ConfigureAwait(true);
+                await _loggingManager.CreateErrorAsync(appName, exc).ConfigureAwait(true);
                 throw;
             }
         }

@@ -46,6 +46,16 @@ export class FiMaComponent {
     this.editedCategory = new FinanceCategory();
   }
 
+  async handleDeleted() {
+
+    if (this.editedCategory.id == null || this.editedCategory.id == '')
+      return;
+    await this.dataService.delete(this.editedCategory);
+    await this.readCostCategories();
+    await this.readIncomeCategories();
+    this.editedCategory = new FinanceCategory();
+  }
+
   async readCostCategories(): Promise<void> {
     this.dataService.readCostCategories()
       .then(costCategories => {
@@ -73,10 +83,4 @@ export class FiMaComponent {
   editIncomeCategory(category: FinanceCategory) {
     this.editedCategory = category;
   }
-  //async delete(id: string) {
-  //  console.log("delete: " + id);
-
-  //  await this.dataService.delete(id);
-  //  await this.readAppointments();
-  //}
 }
