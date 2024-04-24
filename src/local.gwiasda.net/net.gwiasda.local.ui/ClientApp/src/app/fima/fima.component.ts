@@ -44,6 +44,21 @@ export class FiMaComponent {
         this.incomeCategories = incomeCategories ?? [];
       });
   }
+  getNameWithSpaces(category: FinanceCategory): string {
+    let result = '';
+    let count = 0;
+    for (let i = 0; i < category.hierarchy; i++) {
+      result += '---';
+      count++;
+    }
+    return result + " " + category.name;
+  }
+  editCostCategory(category: FinanceCategory) {
+    this.editedCategory = category;
+  }
+  editIncomeCategory(category: FinanceCategory) {
+    this.editedCategory = category;
+  }
   //async delete(id: string) {
   //  console.log("delete: " + id);
 

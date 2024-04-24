@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FinanceCategory } from '../finance_category';
 import { FiMaCategorySelectionComponent } from '../fima-category-selection/fima-category-selection.component';
 import { FiMaDataService } from '../fima-data.service';
@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-fima-category-form',
   templateUrl: './fima-category-form.component.html'
 })
-export class FiMaCategoryFormComponent {
+export class FiMaCategoryFormComponent implements OnChanges {
 
   constructor(dataService: FiMaDataService, private dialog: MatDialog) { this.dataService = dataService; }
 
@@ -19,6 +19,26 @@ export class FiMaCategoryFormComponent {
 
   selectedParentName: string = '---';
   dataService: FiMaDataService;
+
+  async ngOnChanges(changes: SimpleChanges): Promise<void> {
+    if (this.category.parentId != null && this.category.parentId != '') {
+      let parentCategory: FinanceCategory | null = null;
+      if (this.category.isCostCategory)  
+        this.setParentCategoryName(this.costCategories, this.category);
+      else
+        this.setParentCategoryName(this.incomeCategories, this.category);
+    }
+    else
+      this.selectedParentName = '---';
+  }
+  setParentCategoryName(categories: FinanceCategory[] | undefined, category: FinanceCategory) {
+    const items = categories?.filter(c => c.id == this.category.parentId);
+    let parentCategory = items?.length == 1 ? items[0] : null;
+    if (parentCategory)
+      this.selectedParentName = parentCategory.name;
+    else
+      this.selectedParentName = '---';
+  }
 
   selectParent() {
     const dialogRef = this.dialog.open(FiMaCategorySelectionComponent,
@@ -46,6 +66,5 @@ export class FiMaCategoryFormComponent {
 
   async save() {
     this.saved.emit();
-    this.selectedParentName = '---';
   }
 }
