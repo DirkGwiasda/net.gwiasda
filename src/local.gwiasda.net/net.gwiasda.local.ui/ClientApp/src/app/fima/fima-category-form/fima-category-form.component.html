@@ -14,6 +14,10 @@
       <td class="formField"><input class="formInput" type="text" [(ngModel)]="category.description" /></td>
     </tr>
     <tr>
+      <td class="formName">Elternkategorie:</td>
+      <td class="formField"><a (click)="selectParent();">{{selectedParentName}}</a></td>
+    </tr>
+    <tr>
       <td class="formName">Kostenkategorie:</td>
       <td class="formField">
         <input type="checkbox" [(ngModel)]="category.isCostCategory">

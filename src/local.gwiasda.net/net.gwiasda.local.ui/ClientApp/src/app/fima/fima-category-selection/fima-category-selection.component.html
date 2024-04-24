@@ -1,0 +1,12 @@
+<h3 [hidden]="!isCostCategory">Kostenkategorien</h3>
+<h3 [hidden]="isCostCategory">Einkommenskategorien</h3>
+
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="name">
+    <td mat-cell *matCellDef="let cat" class="categoryName">{{ cat.name }}</td>
+  </ng-container>
+
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectCategory(row)"></tr>
+
+</table>

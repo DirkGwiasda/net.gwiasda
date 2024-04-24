@@ -12,7 +12,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class LogEntryDetailsComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<LogEntryDetailsComponent>) { }
-    ngOnInit(): void {
+
+  ngOnInit(): void {
       if (this.logEntry?.attributes)
         this.dataSource = new MatTableDataSource<LogEntryAttribute>(this.logEntry.attributes);
     }
