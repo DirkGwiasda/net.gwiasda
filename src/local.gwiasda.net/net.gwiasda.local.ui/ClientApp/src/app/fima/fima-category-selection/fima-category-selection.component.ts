@@ -18,7 +18,8 @@ export class FiMaCategorySelectionComponent implements OnInit {
   }
 
   @Input() categories: FinanceCategory[] | undefined;
-  @Input() isCostCategory: boolean = false;;
+  @Input() isCostCategory: boolean = false;
+  @Input() allowNoneSelection: boolean = false;
   @Output() saved = new EventEmitter<FinanceCategory>();
 
   dataSource: MatTableDataSource<FinanceCategory> = new MatTableDataSource<FinanceCategory>();

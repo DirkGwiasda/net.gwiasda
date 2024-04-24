@@ -54,7 +54,8 @@ export class FiMaCategoryFormComponent implements OnChanges {
       dialogRef.componentInstance.categories = this.costCategories;
     else
       dialogRef.componentInstance.categories = this.incomeCategories;
-
+      dialogRef.componentInstance.allowNoneSelection = true;
+    
     dialogRef.componentInstance.isCostCategory = this.category == null ? false : this.category.isCostCategory;
     dialogRef.componentInstance.saved.subscribe((category: FinanceCategory) => {
       if(category.name != null && category.name != '')
