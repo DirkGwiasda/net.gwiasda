@@ -11,11 +11,13 @@ namespace Net.Gwiasda.Local.UI.ViewModel.FiMa
             Name = category.Name;
             Description = category.Description;
             Position = category.Position;
+            IsCostCategory = category is CostCategory;
         }
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string? ParentId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int Position { get; set; }
+        public bool IsCostCategory { get; set; }
     }
 }

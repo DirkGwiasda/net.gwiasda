@@ -30,7 +30,20 @@ namespace Net.Gwiasda.Local.UI.Controllers
             try
             {
                 return (await _categoryManager.GetCategoriesAsync<CostCategory>())
-                    .Select(a => new FinanceCategoryViewModel(a)).ToList();
+                    .Select(cat => new FinanceCategoryViewModel(cat)).ToList();
+            }
+            catch (Exception exc)
+            {
+                await _loggingManager.InsertErrorAsync(APP_NAME, exc);
+                throw;
+            }
+        }
+        public async Task<IEnumerable<FinanceCategoryViewModel>> GetIncomeCategories()
+        {
+            try
+            {
+                return (await _categoryManager.GetCategoriesAsync<IncomeCategory>())
+                    .Select(cat => new FinanceCategoryViewModel(cat)).ToList();
             }
             catch (Exception exc)
             {

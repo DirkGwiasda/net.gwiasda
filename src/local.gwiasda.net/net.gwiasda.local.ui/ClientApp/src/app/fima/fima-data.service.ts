@@ -12,8 +12,12 @@ export class FiMaDataService {
   getDefaultHeaders = () => new HttpHeaders()
     .set('Accept', 'application/json');
 
-  async readAll(): Promise<FinanceCategory[] | undefined> {
+  async readCostCategories(): Promise<FinanceCategory[] | undefined> {
     const headers = this.getDefaultHeaders();
     return await this.http.get<FinanceCategory[]>('fima/GetCostCategories', { headers }).toPromise();
+  }
+  async readIncomeCategories(): Promise<FinanceCategory[] | undefined> {
+    const headers = this.getDefaultHeaders();
+    return await this.http.get<FinanceCategory[]>('fima/GetIncomeCategories', { headers }).toPromise();
   }
 }

@@ -4,4 +4,5 @@ export class FinanceCategory {
   name: string = '';
   description: string = '';
   position: number = 0;
+  isCostCategory: boolean = true;
 }

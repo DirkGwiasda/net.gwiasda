@@ -13,19 +13,28 @@ export class FiMaComponent {
 
   dataService: FiMaDataService;
   costCategories: FinanceCategory[] = [];
+  incomeCategories: FinanceCategory[] = [];
 
   ngOnInit() {
     this.readCostCategories();
+    this.readIncomeCategories();
   }
 
   async handleSaved() {
     await this.readCostCategories();
+    await this.readIncomeCategories();
   }
 
   async readCostCategories(): Promise<void> {
-    this.dataService.readAll()
+    this.dataService.readCostCategories()
       .then(costCategories => {
         this.costCategories = costCategories ?? [];
+      });
+  }
+  async readIncomeCategories(): Promise<void> {
+    this.dataService.readIncomeCategories()
+      .then(incomeCategories => {
+        this.incomeCategories = incomeCategories ?? [];
       });
   }
   //async delete(id: string) {

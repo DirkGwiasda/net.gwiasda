@@ -30,11 +30,14 @@ input {
   vertical-align: top;
   padding: 2px 0px 2px 0px;
 }
-.formInput {
+.formInput, formInputShort {
   width: 320px;
   background-color: #444444;
   color: #cccccc;
   border: 1px solid #888888;
+}
+.formInputShort {
+  width: 40px;
 }
 .tableButton {
     text-align: right;
