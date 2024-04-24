@@ -14,6 +14,7 @@ export class FiMaComponent {
   dataService: FiMaDataService;
   costCategories: FinanceCategory[] = [];
   incomeCategories: FinanceCategory[] = [];
+  editedCategory: FinanceCategory = new FinanceCategory();
 
   ngOnInit() {
     this.readCostCategories();
@@ -21,8 +22,14 @@ export class FiMaComponent {
   }
 
   async handleSaved() {
+    if (this.editedCategory.description == null || this.editedCategory.description == '')
+      this.editedCategory.description = this.editedCategory.name;
+
+    await this.dataService.write(this.editedCategory);
     await this.readCostCategories();
     await this.readIncomeCategories();
+
+    this.editedCategory = new FinanceCategory();
   }
 
   async readCostCategories(): Promise<void> {

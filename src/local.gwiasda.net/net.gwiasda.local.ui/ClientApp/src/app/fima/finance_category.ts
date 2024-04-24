@@ -5,4 +5,5 @@ export class FinanceCategory {
   description: string = '';
   position: number = 0;
   isCostCategory: boolean = true;
+  hierarchy: number = 0;
 }

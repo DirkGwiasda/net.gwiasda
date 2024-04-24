@@ -1,7 +1,8 @@
 <h1>Finanzkategorien</h1>
 
 
-<app-fima-category-form (saved)="handleSaved()" [costCategories]="costCategories" [incomeCategories]="incomeCategories"></app-fima-category-form>
+<app-fima-category-form [category]="editedCategory" (saved)="handleSaved()"
+                        [costCategories]="costCategories" [incomeCategories]="incomeCategories"></app-fima-category-form>
 
 <hr />
 

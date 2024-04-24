@@ -3,7 +3,7 @@
   <tbody>
     <tr>
       <td class="formName">ID:</td>
-      <td class="formField"><label>{{category.id}}</label></td>
+      <td class="formField"><label>{{category?.id}}</label></td>
     </tr>
     <tr>
       <td class="formName">Name:</td>
@@ -14,8 +14,8 @@
       <td class="formField"><input class="formInput" type="text" [(ngModel)]="category.description" /></td>
     </tr>
     <tr>
-      <td class="formName">Elternkategorie:</td>
-      <td class="formField"><a (click)="selectParent();">{{selectedParentName}}</a></td>
+      <td class="formName">Oberkategorie:</td>
+      <td class="formField a"><a (click)="selectParent();">{{selectedParentName}}</a></td>
     </tr>
     <tr>
       <td class="formName">Kostenkategorie:</td>

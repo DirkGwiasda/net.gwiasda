@@ -13,7 +13,7 @@ builder.Services.AddSingleton<ILoggingManager, LoggingManager>();
 builder.Services.AddSingleton<ICategoryRepository, FiMaFileSystemCategoryRepository>();
 builder.Services.AddSingleton<ICategoryValidator, CategoryValidator>();
 builder.Services.AddSingleton<ICategoryManager, CategoryManager>();
-
+builder.Services.AddSingleton<ICategorySaveWorkflow, CategorySaveWorkflow>();
 
 var app = builder.Build();
 

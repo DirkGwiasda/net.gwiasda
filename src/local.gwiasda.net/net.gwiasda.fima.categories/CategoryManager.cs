@@ -1,4 +1,6 @@
-﻿namespace Net.Gwiasda.FiMa
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Net.Gwiasda.FiMa
 {
     public class CategoryManager : ICategoryManager
     {
@@ -32,6 +34,10 @@
             _categoryValidator.ValidateCategory(category);
 
             return await _categoryRepository.UpdateCategoryAsync(category);
+        }
+        public async Task UpdateCategoriesAsync<T>(IEnumerable<T> categories) where T : FinanceCategory
+        {
+            await _categoryRepository.UpdateCategoriesAsync(categories);
         }
 
         private List<T> SortCategories<T>(List<T> categories) where T : FinanceCategory

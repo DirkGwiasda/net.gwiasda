@@ -156,8 +156,8 @@ h1, h2, h3, h4 {
   color: #06ec90;
 }
 
-a {
-  color: #0366d6;
+a, .a {
+  color: #0690ec;
   cursor: pointer;
 }
 

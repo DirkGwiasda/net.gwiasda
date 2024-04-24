@@ -18,7 +18,7 @@ namespace Net.Gwiasda.Local.Repository
             {
                 var categories = GetCategoriesAsync<T>().Result.ToList();
                 categories.Add(category);
-                WriteCategoriesToFile(categories);
+                UpdateCategoriesAsync(categories).Wait();
             }
             return Task.FromResult(category);
         }
@@ -32,7 +32,7 @@ namespace Net.Gwiasda.Local.Repository
                 if(costCategory != null)
                 {
                     categories.Remove(costCategory);
-                    WriteCategoriesToFile(categories);
+                    UpdateCategoriesAsync(categories).Wait();
                 }
             }
             return Task.CompletedTask;
@@ -57,17 +57,16 @@ namespace Net.Gwiasda.Local.Repository
                 {
                     categories.Remove(existingCategory);
                     categories.Add(category);
-                    WriteCategoriesToFile(categories);
+                    UpdateCategoriesAsync(categories).Wait();
                 }
             }
             return Task.FromResult(category);
         }
-
-        private void WriteCategoriesToFile<T>(IEnumerable<T> categories)
+        public async Task UpdateCategoriesAsync<T>(IEnumerable<T> categories) where T : FinanceCategory
         {
             var json = JsonSerializer.Serialize(categories);
             var fileName = typeof(T) == typeof(CostCategory) ? GetCostCategoriesFileName() : GetIncomeCategoriesFileName();
-            File.WriteAllText(fileName, json);
+            await File.WriteAllTextAsync(fileName, json);
         }
 
         private string GetBaseDirectory()

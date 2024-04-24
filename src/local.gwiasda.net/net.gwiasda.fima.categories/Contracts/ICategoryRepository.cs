@@ -12,5 +12,6 @@ namespace Net.Gwiasda.FiMa
         Task DeleteCategoryAsync<T>(Guid id) where T : FinanceCategory;
         Task<IEnumerable<T>> GetCategoriesAsync<T>() where T : FinanceCategory;
         Task<T> UpdateCategoryAsync<T>(T category) where T : FinanceCategory;
+        Task UpdateCategoriesAsync<T>(IEnumerable<T> categories) where T : FinanceCategory;
     }
 }

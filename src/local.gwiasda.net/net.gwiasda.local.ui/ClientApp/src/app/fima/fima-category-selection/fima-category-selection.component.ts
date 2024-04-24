@@ -12,8 +12,9 @@ export class FiMaCategorySelectionComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<FiMaCategorySelectionComponent>) { }
 
   ngOnInit(): void {
-    if (this.categories)
+    if (this.categories) {
       this.dataSource = new MatTableDataSource<FinanceCategory>(this.categories);
+    }
   }
 
   @Input() categories: FinanceCategory[] | undefined;
@@ -23,8 +24,18 @@ export class FiMaCategorySelectionComponent implements OnInit {
   dataSource: MatTableDataSource<FinanceCategory> = new MatTableDataSource<FinanceCategory>();
   displayedColumns: string[] = ['name'];
 
-  selectCategory(category: FinanceCategory) {
-    this.saved.emit(category);
+  getNameWithSpaces(category: FinanceCategory): string {
+    let result = '';
+    let count = 0;
+    for (let i = 0; i < category.hierarchy; i++) {
+      result += '---';
+      count++;
+    }
+    return result + " " + category.name;
+  }
+
+  selectCategory(category: FinanceCategory | null) {
+    this.saved.emit(category ?? new FinanceCategory());
     this.dialogRef.close();
   }
   close() {
