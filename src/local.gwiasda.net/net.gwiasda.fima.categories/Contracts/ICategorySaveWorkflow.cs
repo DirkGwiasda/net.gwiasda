@@ -8,6 +8,6 @@ namespace Net.Gwiasda.FiMa
 {
     public interface ICategorySaveWorkflow
     {
-        Task SaveAsync(FinanceCategory category);
+        Task<FinanceCategory> SaveAsync(FinanceCategory category);
     }
 }

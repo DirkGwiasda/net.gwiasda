@@ -25,6 +25,14 @@
     </tr>
     <tr>
       <td>&nbsp;</td>
+      <td class="tableButton" [hidden]="category.id == null || category.id == '' || category.position < 1"><span class="material-symbols-form-button material-symbols-rounded" (click)="moveUp()">arrow_upward</span></td>
+      <td>&nbsp;</td>
+      <td class="tableButton" [hidden]="category.id == null || category.id == ''"><span class="material-symbols-form-button material-symbols-rounded" (click)="moveDown()">arrow_downward</span></td>
+      <td>&nbsp;</td>
+      <td class="tableButton" [hidden]="category.id == null || category.id == ''"><span class="material-symbols-form-button material-symbols-rounded" (click)="delete()">cancel</span></td>
+      <td>&nbsp;</td>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span></td>
+      <td>&nbsp;</td>
       <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span></td>
     </tr>
   </tbody>

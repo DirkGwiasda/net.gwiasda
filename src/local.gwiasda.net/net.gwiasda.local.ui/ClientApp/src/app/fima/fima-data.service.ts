@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { FinanceCategory } from './finance_category';
+import { Observable, catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +13,12 @@ export class FiMaDataService {
   getDefaultHeaders = () => new HttpHeaders()
     .set('Accept', 'application/json');
 
-  async write(category: FinanceCategory): Promise<void> {
-    if (!category) return;
-
-    console.log(category);
-
+  write(category: FinanceCategory): Observable<FinanceCategory> {
     const headers = this.getDefaultHeaders();
+    headers.set('Content-Type', 'application/json');
     const url = 'fima/Save';
 
-    await this.http.post(url, category, { headers }).toPromise();
+    return this.http.post<FinanceCategory>(url, category, { headers });
   }
   async readCostCategories(): Promise<FinanceCategory[] | undefined> {
     const headers = this.getDefaultHeaders();

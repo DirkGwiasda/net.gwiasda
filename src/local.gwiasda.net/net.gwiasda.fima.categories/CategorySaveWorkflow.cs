@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net.Gwiasda.FiMa.Categories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Net.Gwiasda.FiMa
 {
-    public class CategorySaveWorkflow : ICategorySaveWorkflow
+    public class CategorySaveWorkflow : CategoryWorkflow, ICategorySaveWorkflow
     {
         private readonly ICategoryValidator _categoryValidator;
         private readonly ICategoryManager _categoryManager;
@@ -17,7 +18,7 @@ namespace Net.Gwiasda.FiMa
             _categoryManager = categoryManager ?? throw new ArgumentNullException(nameof(categoryManager));
         }
 
-        public async Task SaveAsync(FinanceCategory category)
+        public async Task<FinanceCategory> SaveAsync(FinanceCategory category)
         {
             if(category == null) throw new ArgumentNullException(nameof(category));
 
@@ -30,7 +31,7 @@ namespace Net.Gwiasda.FiMa
                 var costCategories = (await _categoryManager.GetCategoriesAsync<CostCategory>()).ToList();
                 var categories = costCategories.Cast<FinanceCategory>().ToList();
 
-                CalculateHierarchy(categories, category);
+                base.CalculateHierarchy(categories, category);
                 PrepareAndInsertCategory(categories, category);
 
                 await _categoryManager.UpdateCategoriesAsync(categories.Cast<CostCategory>().ToList());
@@ -45,45 +46,28 @@ namespace Net.Gwiasda.FiMa
 
                 await _categoryManager.UpdateCategoriesAsync(categories.Cast<IncomeCategory>().ToList());
             }
-        }
 
-        private void CalculateHierarchy(List<FinanceCategory> categories, FinanceCategory category)
-        {
-            var hierarchy = 0;
-            var currentCategory = category;
-            while(currentCategory?.ParentId != null)
-            {
-                hierarchy++;
-                currentCategory = categories.FirstOrDefault(cat => cat.Id == currentCategory.ParentId);
-            }
-            category.Hierarchy = hierarchy;
+            return category;
         }
-
+        
         private void PrepareAndInsertCategory(List<FinanceCategory> categories, FinanceCategory category)
         {
             var existingCategory = categories.FirstOrDefault(cat => cat.Id == category.Id);
             if (existingCategory != null)
-                RemoveCategoryAndResort(categories, existingCategory);
+                base.RemoveCategoryAndResort(categories, existingCategory);
 
             InsertCategory(categories, category);
         }
-
         private void InsertCategory(List<FinanceCategory> categories, FinanceCategory category)
         {
-            if(category.Position < 0 || category.Position > categories.Count)
-                category.Position = categories.Count;
+            var childs = categories.Where(cat => cat.ParentId == category.ParentId);
+            if (category.Position < 0 || category.Position > childs.Count())
+                category.Position = childs.Count();
 
-            foreach(var cat in categories.Where(cat => cat.ParentId == category.ParentId && cat.Position >= category.Position))
+            foreach(var cat in childs.Where(cat => cat.Position >= category.Position))
                 cat.Position++;
 
             categories.Add(category);
-        }
-
-        private void RemoveCategoryAndResort(List<FinanceCategory> categories, FinanceCategory category)
-        {
-            categories.Remove(category);
-            foreach(var cat in categories.Where(cat => cat.ParentId == category.ParentId && cat.Position > category.Position))
-                cat.Position--;
         }
     }
 }

@@ -21,14 +21,28 @@ export class FiMaComponent {
     this.readIncomeCategories();
   }
 
+  generateGUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   async handleSaved() {
     if (this.editedCategory.description == null || this.editedCategory.description == '')
       this.editedCategory.description = this.editedCategory.name;
 
-    await this.dataService.write(this.editedCategory);
-    await this.readCostCategories();
-    await this.readIncomeCategories();
+    if(this.editedCategory.id == null || this.editedCategory.id == '')
+      this.editedCategory.id = this.generateGUID();
 
+    this.dataService.write(this.editedCategory).subscribe(category => {
+        this.readCostCategories();
+        this.readIncomeCategories();
+      });
+  }
+
+  async handleCancelled() {
     this.editedCategory = new FinanceCategory();
   }
 

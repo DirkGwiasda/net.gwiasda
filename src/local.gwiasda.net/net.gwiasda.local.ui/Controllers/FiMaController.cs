@@ -56,14 +56,16 @@ namespace Net.Gwiasda.Local.UI.Controllers
         }
 
         [HttpPost]
-        public async Task Save([FromBody] FinanceCategoryViewModel categoryViewModel)
+        public async Task<FinanceCategoryViewModel> Save([FromBody] FinanceCategoryViewModel categoryViewModel)
         {
             try
             {
                 if (categoryViewModel == null) throw new ArgumentNullException(nameof(categoryViewModel));
-
                 var category = categoryViewModel.ToCategory();
-                await _categorySaveWorkflow.SaveAsync(category).ConfigureAwait(true);
+
+                category = await _categorySaveWorkflow.SaveAsync(category).ConfigureAwait(true);
+
+                return new FinanceCategoryViewModel(category);
             }
             catch (Exception exc)
             {

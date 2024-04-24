@@ -16,6 +16,8 @@ export class FiMaCategoryFormComponent implements OnChanges {
   @Input() incomeCategories: FinanceCategory[] | undefined;
   @Input() category: FinanceCategory = new FinanceCategory();
   @Output() saved = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<void>();
 
   selectedParentName: string = '---';
   dataService: FiMaDataService;
@@ -63,8 +65,22 @@ export class FiMaCategoryFormComponent implements OnChanges {
         this.category.parentId = category.id;
     });
   }
-
+  moveDown() {
+    this.category.position++;
+    this.saved.emit();
+  }
+  moveUp() {
+    if (this.category.position == 0) return;
+    this.category.position--;
+    this.saved.emit();
+  }
   async save() {
     this.saved.emit();
+  }
+  async cancel() {
+    this.cancelled.emit();
+  }
+  async delete() {
+    this.deleted.emit();
   }
 }
