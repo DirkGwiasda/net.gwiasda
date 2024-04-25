@@ -1,7 +1,7 @@
 import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FinanceCategory } from '../finance_category';
 import { FiMaCategorySelectionComponent } from '../fima-category-selection/fima-category-selection.component';
-import { FiMaDataService } from '../fima-data.service';
+import { FiMaDataService } from '../../fima-data.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

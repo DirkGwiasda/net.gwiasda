@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { FinanceCategory } from './finance_category';
+import { FinanceCategory } from './fima-categories/finance_category';
 import { Observable, catchError } from 'rxjs';
 
 @Injectable({

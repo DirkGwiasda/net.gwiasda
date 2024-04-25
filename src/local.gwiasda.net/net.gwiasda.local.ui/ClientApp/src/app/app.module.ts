@@ -17,8 +17,9 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { AppointmentsFormComponent } from './appointments/appointments-form/appointments-form.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FiMaComponent } from './fima/fima.component';
-import { FiMaCategoryFormComponent } from './fima/fima-category-form/fima-category-form.component';
-import { FiMaCategorySelectionComponent } from './fima/fima-category-selection/fima-category-selection.component';
+import { FiMaCategoryFormComponent } from './fima/fima-categories/fima-category-form/fima-category-form.component';
+import { FiMaCategorySelectionComponent } from './fima/fima-categories/fima-category-selection/fima-category-selection.component';
+import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FiMaCategorySelectionComponent } from './fima/fima-category-selection/f
     AppointmentsFormComponent,
     FiMaComponent,
     FiMaCategoryFormComponent,
-    FiMaCategorySelectionComponent
+    FiMaCategorySelectionComponent,
+    FiMaCategoriesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
