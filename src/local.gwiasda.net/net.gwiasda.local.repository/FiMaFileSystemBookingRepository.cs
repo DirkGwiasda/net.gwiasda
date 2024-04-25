@@ -40,7 +40,7 @@ namespace Net.Gwiasda.Local.Repository
         }
 
         internal string GetFQBookingFileName(DateTime date)
-            => Path.Combine(GetBookingMonthDirectory(date), $"{date:yyyy_MM_dd}.{BookingFileExtension}");
+            => Path.Combine(GetBookingMonthDirectory(date), $"{date:yyyy_MM_dd}{BookingFileExtension}");
         internal string GetBookingMonthDirectory(DateTime date)
         {
             var baseDir = base.GetBaseDirectory(BookingDirectory);

@@ -7,8 +7,20 @@
       <td class="formField"><label>{{booking?.id}}</label></td>
     </tr>
     <tr>
+      <td class="formName">Datum:</td>
+      <td>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="booking.timestamp">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </td>
+    </tr>
+    <tr>
       <td class="formName">Text:</td>
       <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.text" /></td>
+    </tr>
+    <tr>
+      <td class="formName">Betrag:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.amount" /></td>
     </tr>
     <tr>
       <td class="formName">Sind es Kosten ?</td>
@@ -20,6 +32,10 @@
       <td class="formName">Kategorie:</td>
       <td class="formField a"><a (click)="selectCategory();">{{selectedCategoryName}}</a></td>
     </tr>
-    
+    <tr>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span></td>
+      <td>&nbsp;</td>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span></td>
+    </tr>
   </tbody>
 </table>

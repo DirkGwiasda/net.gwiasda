@@ -4,4 +4,5 @@ export class Booking {
   text: string = '';
   categoryId: string = '';
   isCost: boolean = false;
+  amount: number = 0;
 }

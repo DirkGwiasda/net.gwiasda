@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Net.Gwiasda
+﻿namespace Net.Gwiasda
 {
     public class Booking
     {
@@ -13,5 +7,6 @@ namespace Net.Gwiasda
         public string Text { get; set; } = string.Empty;
         public Guid CategoryId { get; set; } = Guid.Empty;
         public bool IsCost { get; set; }
+        public decimal Amount { get; set; }
     }
 }

@@ -6,6 +6,7 @@ import { FiMaBookingDataService } from '../fima-booking-data.service';
 import { FiMaCategoryDataService } from '../../fima-categories/fima-category-data.service';
 import { MatDialog } from '@angular/material/dialog';
 
+
 @Component({
   selector: 'app-fima-booking-form',
   templateUrl: './fima-booking-form.component.html'
@@ -56,6 +57,14 @@ export class FiMaBookingFormComponent implements OnInit {
       if (this.booking != null)
         this.booking.categoryId = category.id;
     });
+  }
+
+  cancel() {
+
+  }
+  async save() {
+    console.log(this.booking);
+    await this.dataService.write(this.booking);
   }
 
   async readCostCategories(): Promise<void> {

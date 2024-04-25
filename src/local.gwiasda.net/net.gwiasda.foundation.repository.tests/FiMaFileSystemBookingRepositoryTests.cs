@@ -20,7 +20,7 @@ namespace net.gwiasda.foundation.repository.tests
             var expectedFileName = Path.Combine(
                 test.GetBaseDirectory(FiMaFileSystemBookingRepository.BookingDirectory), 
                 "2024_03", 
-                $"2024_03_20.{FiMaFileSystemBookingRepository.BookingFileExtension}");
+                $"2024_03_20{FiMaFileSystemBookingRepository.BookingFileExtension}");
 
             // Act
             var actualFileName = test.GetFQBookingFileName(new DateTime(2024, 3, 20));
