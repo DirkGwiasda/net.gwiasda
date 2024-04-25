@@ -1,6 +1,19 @@
 <h1>FiMa</h1>
 
+<div style="padding-bottom: 20px;">
+  <a class="a" (click)="setActiveFrame('booking')">Buchen</a>
+  |
+  <a class="a" (click)="setActiveFrame('categories')">Finanzkategorien</a>
+  |
+  <a class="a" (click)="setActiveFrame('reports')">Reports</a>
+</div>
 
-<div>
+<div [hidden]="activeFrame != 'categories'">
   <app-fima-categories></app-fima-categories>
+</div>
+<div [hidden]="activeFrame != 'booking'">
+  <app-fima-booking></app-fima-booking>
+</div>
+<div [hidden]="activeFrame != 'reports'">
+
 </div>

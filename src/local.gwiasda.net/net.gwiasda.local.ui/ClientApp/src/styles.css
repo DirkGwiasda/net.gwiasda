@@ -159,7 +159,12 @@ h1, h2, h3, h4 {
 a, .a {
   color: #0690ec;
   cursor: pointer;
+  text-decoration: none;
 }
+  a:hover, .a:hover {
+    color: #0690ec;
+    text-decoration: underline;
+  }
 
 code {
   color: #E01A76;

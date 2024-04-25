@@ -20,6 +20,7 @@ import { FiMaComponent } from './fima/fima.component';
 import { FiMaCategoryFormComponent } from './fima/fima-categories/fima-category-form/fima-category-form.component';
 import { FiMaCategorySelectionComponent } from './fima/fima-categories/fima-category-selection/fima-category-selection.component';
 import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.component';
+import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.
     FiMaComponent,
     FiMaCategoryFormComponent,
     FiMaCategorySelectionComponent,
-    FiMaCategoriesComponent
+    FiMaCategoriesComponent,
+    FiMaBookingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
