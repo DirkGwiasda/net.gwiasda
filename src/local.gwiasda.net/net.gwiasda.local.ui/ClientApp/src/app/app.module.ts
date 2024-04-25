@@ -21,6 +21,7 @@ import { FiMaCategoryFormComponent } from './fima/fima-categories/fima-category-
 import { FiMaCategorySelectionComponent } from './fima/fima-categories/fima-category-selection/fima-category-selection.component';
 import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.component';
 import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component';
+import { FiMaBookingFormComponent } from './fima/fima-booking/fima-booking-form/fima-booking-form.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component
     FiMaCategoryFormComponent,
     FiMaCategorySelectionComponent,
     FiMaCategoriesComponent,
-    FiMaBookingComponent
+    FiMaBookingComponent,
+    FiMaBookingFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,7 +52,7 @@ import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'logs', component: LoggingComponent, pathMatch: 'full' },
       { path: 'appointments', component: AppointmentsComponent, pathMatch: 'full' },
-      { path: 'finma', component: FiMaComponent, pathMatch: 'full' },
+      { path: 'fima', component: FiMaComponent, pathMatch: 'full' },
     ])
   ],
   providers: [

@@ -3,10 +3,8 @@ using System.Text.Json;
 
 namespace Net.Gwiasda.Local.Repository
 {
-    public class FiMaFileSystemCategoryRepository : ICategoryRepository
+    public class FiMaFileSystemCategoryRepository : FiMaFileSystemRepository, ICategoryRepository
     {
-        internal const string RootDataDirectory = "gwiasda_local_data";
-        internal const string FiMaDirectory = "fima";
         internal const string CostCategoriesFileName = "cost_categories.fima";
         internal const string IncomeCategoriesFileName = "income_categories.fima";
 
@@ -69,13 +67,7 @@ namespace Net.Gwiasda.Local.Repository
             await File.WriteAllTextAsync(fileName, json);
         }
 
-        private string GetBaseDirectory()
-        {
-            var dir = Path.Combine(RootDataDirectory, FiMaDirectory);
-            if(!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-            return dir;
-        }
-        private string GetCostCategoriesFileName() => Path.Combine(GetBaseDirectory(), CostCategoriesFileName);
-        private string GetIncomeCategoriesFileName() => Path.Combine(GetBaseDirectory(), IncomeCategoriesFileName);
+        private string GetCostCategoriesFileName() => Path.Combine(GetBaseDirectory(string.Empty), CostCategoriesFileName);
+        private string GetIncomeCategoriesFileName() => Path.Combine(GetBaseDirectory(string.Empty), IncomeCategoriesFileName);
     }
 }

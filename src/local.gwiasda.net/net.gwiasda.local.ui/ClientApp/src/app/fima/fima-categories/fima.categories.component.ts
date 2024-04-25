@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceCategory } from './finance_category';
-import { FiMaDataService } from '../fima-data.service';
+import { FiMaCategoryDataService } from './fima-category-data.service';
 
 @Component({
   selector: 'app-fima-categories',
   templateUrl: './fima.categories.component.html'
 })
-export class FiMaCategoriesComponent {
+export class FiMaCategoriesComponent implements OnInit {
 
-  constructor(dataService: FiMaDataService) { this.dataService = dataService; }
+  constructor(dataService: FiMaCategoryDataService) { this.dataService = dataService; }
 
-  dataService: FiMaDataService;
+  dataService: FiMaCategoryDataService;
   costCategories: FinanceCategory[] = [];
   incomeCategories: FinanceCategory[] = [];
   editedCategory: FinanceCategory = new FinanceCategory();

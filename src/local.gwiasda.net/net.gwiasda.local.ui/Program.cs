@@ -15,6 +15,8 @@ builder.Services.AddSingleton<ICategoryValidator, CategoryValidator>();
 builder.Services.AddSingleton<ICategoryManager, CategoryManager>();
 builder.Services.AddSingleton<ISaveCategoryWorkflow, SaveCategoryWorkflow>();
 builder.Services.AddSingleton<IDeleteCategoryWorkflow, DeleteCategoryWorkflow>();
+builder.Services.AddSingleton<IBookingRepository, FiMaFileSystemBookingRepository>();
+builder.Services.AddSingleton<IBookingManager, BookingManager>();
 
 var app = builder.Build();
 

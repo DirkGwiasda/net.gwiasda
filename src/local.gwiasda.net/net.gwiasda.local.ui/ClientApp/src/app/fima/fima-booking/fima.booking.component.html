@@ -5,3 +5,7 @@
   |
   <a class="a" (click)="setActiveFrame('history')">Historie</a>
 </div>
+
+<div [hidden]="activeFrame != 'create'">
+  <app-fima-booking-form></app-fima-booking-form>
+</div>

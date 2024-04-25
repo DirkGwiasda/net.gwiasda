@@ -1,7 +1,7 @@
 import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FinanceCategory } from '../finance_category';
 import { FiMaCategorySelectionComponent } from '../fima-category-selection/fima-category-selection.component';
-import { FiMaDataService } from '../../fima-data.service';
+import { FiMaCategoryDataService } from '../fima-category-data.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class FiMaCategoryFormComponent implements OnChanges {
 
-  constructor(dataService: FiMaDataService, private dialog: MatDialog) { this.dataService = dataService; }
+  constructor(dataService: FiMaCategoryDataService, private dialog: MatDialog) { this.dataService = dataService; }
 
   @Input() costCategories: FinanceCategory[] | undefined;
   @Input() incomeCategories: FinanceCategory[] | undefined;
@@ -20,7 +20,7 @@ export class FiMaCategoryFormComponent implements OnChanges {
   @Output() deleted = new EventEmitter<void>();
 
   selectedParentName: string = '---';
-  dataService: FiMaDataService;
+  dataService: FiMaCategoryDataService;
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
     if (this.category.parentId != null && this.category.parentId != '') {

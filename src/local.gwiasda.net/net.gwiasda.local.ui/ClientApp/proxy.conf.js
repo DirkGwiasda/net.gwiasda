@@ -7,7 +7,8 @@ const PROXY_CONFIG = [
   {
     context: [
       "/logging",
-      "/fima",
+      "/fimacategory",
+      "/fimabooking",
    ],
     target: target,
     secure: false,

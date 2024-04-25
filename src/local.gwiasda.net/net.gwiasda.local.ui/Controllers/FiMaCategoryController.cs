@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
 using Net.Gwiasda.FiMa;
 using Net.Gwiasda.Local.UI.ViewModel.FiMa;
-using Net.Gwiasda.Local.UI.ViewModel.Logging;
 using Net.Gwiasda.Logging;
-using System.Collections.ObjectModel;
 
 namespace Net.Gwiasda.Local.UI.Controllers
 {
-    public class FiMaController : Controller
+    public class FiMaCategoryController : Controller
     {
         private const string APP_NAME = "FiMa";
         private readonly ILoggingManager _loggingManager;
@@ -16,7 +13,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
         private readonly ISaveCategoryWorkflow _saveCategoryWorkflow;
         private readonly IDeleteCategoryWorkflow _deleteCategoryWorkflow;
 
-        public FiMaController(ILoggingManager loggingManager, ICategoryManager categoryManager, 
+        public FiMaCategoryController(ILoggingManager loggingManager, ICategoryManager categoryManager, 
             ISaveCategoryWorkflow saveCategoryWorkflow, IDeleteCategoryWorkflow deleteCategoryWorkflow)
         {
             _loggingManager = loggingManager ?? throw new ArgumentNullException(nameof(loggingManager));
@@ -27,7 +24,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
 
         public Task<string> Ping()
         {
-            return Task.FromResult($"{DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")} Pong from FiMaController");
+            return Task.FromResult($"{DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")} Pong from FiMaCategoryController");
         }
 
         public async Task<IEnumerable<FinanceCategoryViewModel>> GetCostCategories()

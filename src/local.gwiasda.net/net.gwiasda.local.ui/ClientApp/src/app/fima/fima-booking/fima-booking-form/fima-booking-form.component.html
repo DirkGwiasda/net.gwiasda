@@ -1,0 +1,25 @@
+<h4>Buchung erfassen</h4>
+
+<table>
+  <tbody>
+    <tr>
+      <td class="formName">ID:</td>
+      <td class="formField"><label>{{booking?.id}}</label></td>
+    </tr>
+    <tr>
+      <td class="formName">Text:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.text" /></td>
+    </tr>
+    <tr>
+      <td class="formName">Sind es Kosten ?</td>
+      <td class="formField">
+        <input type="checkbox" [(ngModel)]="booking.isCost">
+      </td>
+    </tr>
+    <tr>
+      <td class="formName">Kategorie:</td>
+      <td class="formField a"><a (click)="selectCategory();">{{selectedCategoryName}}</a></td>
+    </tr>
+    
+  </tbody>
+</table>

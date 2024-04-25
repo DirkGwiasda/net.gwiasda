@@ -4,12 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>Net.Gwiasda.FiMa.Booking</RootNamespace>
+    <RootNamespace>Net.Gwiasda.FiMa</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Model\" />
-  </ItemGroup>
 
 </Project>

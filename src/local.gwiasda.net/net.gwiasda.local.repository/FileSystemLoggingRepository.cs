@@ -3,9 +3,8 @@ using System.Text.Json;
 
 namespace Net.Gwiasda.Local.Repository
 {
-    public class FileSystemLoggingRepository : ILoggingRepository
+    public class FileSystemLoggingRepository : FileSystemRepository, ILoggingRepository
     {
-        internal const string RootDataDirectory = "gwiasda_local_data";
         internal const string LoggingDirectory = "logging";
         internal const string FileExtension = ".log";
 
