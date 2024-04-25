@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Booking } from '../booking';
 import { FiMaBookingDataService } from '../fima-booking-data.service';
 
@@ -12,6 +12,8 @@ export class FiMaBookingOverviewComponent implements OnInit, OnChanges {
   constructor(private dataService: FiMaBookingDataService) { }
 
   @Input() injectedDate: Date = new Date();
+  @Output() selected = new EventEmitter<Booking>();
+
   date: Date = new Date();
 
   categoryKeys: string[] = [];
@@ -42,7 +44,9 @@ export class FiMaBookingOverviewComponent implements OnInit, OnChanges {
     }
   }
 
-   edit(booking: Booking) {
+  edit(booking: Booking) {
+    if(booking)
+      this.selected.emit(booking);
     //console.log("edit");
     //console.log(booking);
     //this.booking = booking;

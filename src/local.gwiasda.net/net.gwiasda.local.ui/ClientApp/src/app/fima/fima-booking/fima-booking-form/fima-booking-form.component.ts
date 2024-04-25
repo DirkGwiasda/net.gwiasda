@@ -4,7 +4,7 @@ import { FinanceCategory } from '../../fima-categories/finance_category';
 import { FiMaCategorySelectionComponent } from '../../fima-categories/fima-category-selection/fima-category-selection.component';
 import { FiMaBookingDataService } from '../fima-booking-data.service';
 import { FiMaCategoryDataService } from '../../fima-categories/fima-category-data.service';
-import { FiMaBookingOverviewComponent } from '../fima-booking-overview/fima-booking-overview.component';
+import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class FiMaBookingFormComponent implements OnInit {
 
-  constructor(dataService: FiMaBookingDataService, categoryDataService: FiMaCategoryDataService, private dialog: MatDialog)
+  constructor(dataService: FiMaBookingDataService, categoryDataService: FiMaCategoryDataService, private dialog: MatDialog, private cdr: ChangeDetectorRef)
   {
     this.dataService = dataService;
     this.categoryDataService = categoryDataService;
@@ -38,12 +38,14 @@ export class FiMaBookingFormComponent implements OnInit {
     return amount.toFixed(2);
   }
   updateModel(value: string) {
-    if (/^-?\d*\,\.?\d*$/g.test(value)) {
-      this.booking.amount = parseFloat(value.replace(/./g, ''));
-      this.booking.amount = parseFloat(value.replace(/,/g, '.'));
+    if (/^[0-9]+(,[0-9]{0,2})?$/g.test(value)) {
+      value = value.replace(".", '').replace(",", '.');
+      const amount = parseFloat(value);
+      this.booking.amount = amount;
     }
-    else
+    else {
       this.formattedAmount = 0;
+    }
   }
   selectCategory() {
     const dialogRef = this.dialog.open(FiMaCategorySelectionComponent,
