@@ -10,7 +10,7 @@
         <tr>
           <td class="formName">Datum:</td>
           <td>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="booking.timestamp">
+            <input id="bookingdate" matInput [matDatepicker]="picker" [(ngModel)]="hackDate">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </td>
@@ -45,27 +45,6 @@
   </div>
   <div class="flexItem" style="border-right: 1px solid;">&nbsp;</div>
   <div class="flexItem">
-    <h4>Buchungsübersicht für heute</h4>
-    <table>
-      <ng-container *ngFor="let cat of categoryKeys">
-        <tr>
-          <td width="200" style="vertical-align: top" class="categoryName">{{ cat }}</td>
-          <td>
-            <table>
-              <ng-container *ngFor="let item of bookingsPerTimeUnit.get(cat)">
-                <tr>
-                  <td width="120" class="categoryName">{{ item.timestamp | date:'dd.MM.yyyy' }}</td>
-                  <td width="320" class="categoryName"><a class="a" (click)="edit(item)">{{ item.text }}</a></td>
-                  <td width="80" style="text-align: right;" class="categoryName">{{ item.amount | number: '1.2-2' }} €</td>
-                </tr>
-              </ng-container>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="border-bottom: 1px solid; height: 1px;">&nbsp;</td>
-        </tr>
-      </ng-container>
-    </table>
+    <app-fima-booking-overview [injectedDate]="date"></app-fima-booking-overview>
   </div>
 </div>

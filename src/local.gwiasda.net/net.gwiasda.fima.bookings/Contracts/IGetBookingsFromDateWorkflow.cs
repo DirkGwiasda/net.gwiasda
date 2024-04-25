@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Net.Gwiasda.FiMa
 {
-    public interface IGetBookingsFromTodayWorkflow
+    public interface IGetBookingsFromDateWorkflow
     {
-        Task<Dictionary<string, List<Booking>>> GetBookingsFromToday();
+        Task<Dictionary<string, List<Booking>>> GetBookingsFromDay(DateTime day);
     }
 }

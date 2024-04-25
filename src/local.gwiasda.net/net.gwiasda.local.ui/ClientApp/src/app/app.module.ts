@@ -23,6 +23,7 @@ import { FiMaCategorySelectionComponent } from './fima/fima-categories/fima-cate
 import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.component';
 import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component';
 import { FiMaBookingFormComponent } from './fima/fima-booking/fima-booking-form/fima-booking-form.component';
+import { FiMaBookingOverviewComponent } from './fima/fima-booking/fima-booking-overview/fima-booking-overview.component';
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -46,7 +47,8 @@ registerLocaleData(localeDe);
     FiMaCategorySelectionComponent,
     FiMaCategoriesComponent,
     FiMaBookingComponent,
-    FiMaBookingFormComponent
+    FiMaBookingFormComponent,
+    FiMaBookingOverviewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

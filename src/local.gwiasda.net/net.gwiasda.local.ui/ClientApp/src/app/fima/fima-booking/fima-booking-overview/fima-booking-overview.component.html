@@ -1,0 +1,33 @@
+
+<div class="container">
+  <div class="flexItem"><h4>Buchungsübersicht für den </h4></div>
+  <div class="flexItem">
+    <input matInput [matDatepicker]="picker" [(ngModel)]="date">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+  <div class="flexItem">
+    <span class="material-symbols-form-button material-symbols-rounded" (click)="readBookingsFromDay()">refresh</span>
+  </div>
+</div>
+<table>
+  <ng-container *ngFor="let cat of categoryKeys">
+    <tr>
+      <td width="200" style="vertical-align: top" class="categoryName">{{ cat }}</td>
+      <td>
+        <table>
+          <ng-container *ngFor="let item of bookingsPerTimeUnit.get(cat)">
+            <tr style="border-bottom: 1px solid; height: 1px;">
+              <td width="120" class="categoryName">{{ item.timestamp | date:'dd.MM.yyyy' }}</td>
+              <td width="320" class="categoryName"><a class="a" (click)="edit(item)">{{ item.text }}</a></td>
+              <td width="80" style="text-align: right;" class="categoryName">{{ item.amount | number: '1.2-2' }} €</td>
+            </tr>
+          </ng-container>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+  </ng-container>
+</table>

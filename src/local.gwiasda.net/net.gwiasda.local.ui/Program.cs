@@ -17,7 +17,7 @@ builder.Services.AddSingleton<ISaveCategoryWorkflow, SaveCategoryWorkflow>();
 builder.Services.AddSingleton<IDeleteCategoryWorkflow, DeleteCategoryWorkflow>();
 builder.Services.AddSingleton<IBookingRepository, FiMaFileSystemBookingRepository>();
 builder.Services.AddSingleton<IBookingManager, BookingManager>();
-builder.Services.AddSingleton<IGetBookingsFromTodayWorkflow, GetBookingsFromTodayWorkflow>();
+builder.Services.AddSingleton<IGetBookingsFromDateWorkflow, GetBookingsFromDateWorkflow>();
 
 var app = builder.Build();
 

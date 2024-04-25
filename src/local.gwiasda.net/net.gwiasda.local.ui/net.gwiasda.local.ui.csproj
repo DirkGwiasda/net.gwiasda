@@ -33,8 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="gwiasda_local_data\" />
-    <Folder Include="gwiasda_local_data\fima\booking\2024_04\" />
+    <Folder Include="gwiasda_local_data\fima\booking\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

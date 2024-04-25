@@ -2,6 +2,7 @@
 using Net.Gwiasda.FiMa;
 using Net.Gwiasda.Local.UI.ViewModel.FiMa;
 using Net.Gwiasda.Logging;
+using System.Globalization;
 
 namespace Net.Gwiasda.Local.UI.Controllers
 {
@@ -10,14 +11,14 @@ namespace Net.Gwiasda.Local.UI.Controllers
         private const string APP_NAME = "FiMa";
         private readonly ILoggingManager _loggingManager;
         private readonly IBookingManager _bookingManager;
-        private readonly IGetBookingsFromTodayWorkflow _getBookingsFromTodayWorkflow;
+        private readonly IGetBookingsFromDateWorkflow _getBookingsFromDayWorkflow;
 
         public FiMaBookingController(ILoggingManager loggingManager, IBookingManager bookingManager, 
-                                     IGetBookingsFromTodayWorkflow getBookingsFromTodayWorkflow)
+                                     IGetBookingsFromDateWorkflow getBookingsFromDayWorkflow)
         {
             _loggingManager = loggingManager ?? throw new ArgumentNullException(nameof(loggingManager));
             _bookingManager = bookingManager ?? throw new ArgumentNullException(nameof(bookingManager));
-            _getBookingsFromTodayWorkflow = getBookingsFromTodayWorkflow ?? throw new ArgumentNullException(nameof(getBookingsFromTodayWorkflow));
+            _getBookingsFromDayWorkflow = getBookingsFromDayWorkflow ?? throw new ArgumentNullException(nameof(getBookingsFromDayWorkflow));
 
         }
 
@@ -26,11 +27,15 @@ namespace Net.Gwiasda.Local.UI.Controllers
             return Task.FromResult($"{DateTime.Now.ToString("dd.MM.yyyy hh:mm:ss")} Pong from FiMaBookingController");
         }
 
-        public async Task<Dictionary<string, List<BookingViewModel>>> GetBookingsFromToday()
+        public async Task<Dictionary<string, List<BookingViewModel>>> GetBookingsFromToday(string date)
         {
             try
             {
-                var bookings = await _getBookingsFromTodayWorkflow.GetBookingsFromToday();
+                if(!DateTime.TryParseExact(date, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var day))
+                {
+                    throw new ArgumentException($"Invalid date format '{date}'", nameof(date));
+                }
+                var bookings = await _getBookingsFromDayWorkflow.GetBookingsFromDay(day);
                 var result = new Dictionary<string, List<BookingViewModel>>();
                 foreach(var key in bookings.Keys)
                 {

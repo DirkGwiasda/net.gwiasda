@@ -4,12 +4,8 @@ import { FinanceCategory } from '../../fima-categories/finance_category';
 import { FiMaCategorySelectionComponent } from '../../fima-categories/fima-category-selection/fima-category-selection.component';
 import { FiMaBookingDataService } from '../fima-booking-data.service';
 import { FiMaCategoryDataService } from '../../fima-categories/fima-category-data.service';
+import { FiMaBookingOverviewComponent } from '../fima-booking-overview/fima-booking-overview.component';
 import { MatDialog } from '@angular/material/dialog';
-
-import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeDe from '@angular/common/locales/de';
-
 
 @Component({
   selector: 'app-fima-booking-form',
@@ -23,6 +19,7 @@ export class FiMaBookingFormComponent implements OnInit {
     this.categoryDataService = categoryDataService;
   }
 
+  date: Date = new Date();
   dataService: FiMaBookingDataService;
   categoryDataService: FiMaCategoryDataService;
   costCategories: FinanceCategory[] = [];
@@ -30,22 +27,12 @@ export class FiMaBookingFormComponent implements OnInit {
   category: FinanceCategory = new FinanceCategory();
   selectedCategoryName: string = '---';
   booking: Booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
-  categoryKeys: string[] = [];
   formattedAmount: number = 0;
-
-  bookingsPerTimeUnit: Map<string, Booking[]> = new Map<string, Booking[]>();
+  hackDate: Date = new Date();
 
   ngOnInit() {
     this.readCostCategories();
     this.readIncomeCategories();
-    this.readBookingsFromToday();
-  }
-
-  async readBookingsFromToday() {
-    this.dataService.readBookingsFromToday().subscribe(response => {
-      this.bookingsPerTimeUnit = new Map<string, Booking[]>(Object.entries(response));
-      this.categoryKeys = Object.keys(response);
-    });
   }
   getAmount(amount: number) {
     return amount.toFixed(2);
@@ -85,21 +72,21 @@ export class FiMaBookingFormComponent implements OnInit {
     });
   }
   edit(booking: Booking) {
-    console.log("edit");
-    console.log(booking);
-    this.booking = booking;
-    this.selectedCategoryName = this.booking.categoryId;
-    this.formattedAmount = this.booking.amount;
-    let category: FinanceCategory | undefined;
-    if (booking.isCost)
-      category = this.costCategories.find(c => c.id == booking.categoryId);
-    else
-      category = this.incomeCategories.find(c => c.id == booking.categoryId);
+    //console.log("edit");
+    //console.log(booking);
+    //this.booking = booking;
+    //this.selectedCategoryName = this.booking.categoryId;
+    //this.formattedAmount = this.booking.amount;
+    //let category: FinanceCategory | undefined;
+    //if (booking.isCost)
+    //  category = this.costCategories.find(c => c.id == booking.categoryId);
+    //else
+    //  category = this.incomeCategories.find(c => c.id == booking.categoryId);
 
-    if (category != null)
-      this.selectedCategoryName = category.name;
-    else
-      this.selectedCategoryName = '---';
+    //if (category != null)
+    //  this.selectedCategoryName = category.name;
+    //else
+    //  this.selectedCategoryName = '---';
   }
   cancel() {
     this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
@@ -107,9 +94,22 @@ export class FiMaBookingFormComponent implements OnInit {
     this.selectedCategoryName = '---';
   }
   async save() {
+
+    this.booking.timestamp = this.getFuckingHackDate();
+
     await this.dataService.write(this.booking);
-    this.readBookingsFromToday();
+    this.date = this.booking.timestamp;
     this.cancel();
+  }
+
+  getFuckingHackDate(): Date {
+    var el = document.getElementById("bookingdate");
+    if (el instanceof HTMLInputElement) {
+      const dateParts = el.value.split('.');
+      if (dateParts.length === 3)
+        return new Date(parseInt(dateParts[2]), parseInt(dateParts[1]) - 1, parseInt(dateParts[0]), 8, 0, 0);
+    }
+    return this.booking.timestamp;
   }
 
   async readCostCategories(): Promise<void> {

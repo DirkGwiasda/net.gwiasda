@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace Net.Gwiasda.FiMa
 {
-    public class GetBookingsFromTodayWorkflow : IGetBookingsFromTodayWorkflow
+    public class GetBookingsFromDateWorkflow : IGetBookingsFromDateWorkflow
     {
         private readonly IBookingManager _bookingManager;
         private readonly ICategoryManager _categoryManager;
 
-        public GetBookingsFromTodayWorkflow(IBookingManager bookingManager, ICategoryManager categoryManager)
+        public GetBookingsFromDateWorkflow(IBookingManager bookingManager, ICategoryManager categoryManager)
         {
             _bookingManager = bookingManager ?? throw new ArgumentNullException(nameof(bookingManager));
             _categoryManager = categoryManager ?? throw new ArgumentNullException(nameof(categoryManager));
         }
 
-        public async Task<Dictionary<string, List<Booking>>> GetBookingsFromToday()
+        public async Task<Dictionary<string, List<Booking>>> GetBookingsFromDay(DateTime day)
         {
             var categories = await GetAllCategories();
 
-            var bookingsFromToday = await _bookingManager.GetBookingsFromDay(DateTime.Now);
+            var bookingsFromToday = await _bookingManager.GetBookingsFromDay(day);
 
             var result = new Dictionary<string, List<Booking>>();
             foreach(var booking in bookingsFromToday)
