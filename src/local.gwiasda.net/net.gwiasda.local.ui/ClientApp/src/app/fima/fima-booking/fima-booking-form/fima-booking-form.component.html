@@ -55,7 +55,7 @@
               <ng-container *ngFor="let item of bookingsPerTimeUnit.get(cat)">
                 <tr>
                   <td width="120" class="categoryName">{{ item.timestamp | date:'dd.MM.yyyy' }}</td>
-                  <td width="320" class="categoryName">{{ item.text }}</td>
+                  <td width="320" class="categoryName"><a class="a" (click)="edit(item)">{{ item.text }}</a></td>
                   <td width="80" style="text-align: right;" class="categoryName">{{ item.amount | number: '1.2-2' }} €</td>
                 </tr>
               </ng-container>

@@ -84,18 +84,32 @@ export class FiMaBookingFormComponent implements OnInit {
         this.booking.categoryId = category.id;
     });
   }
+  edit(booking: Booking) {
+    console.log("edit");
+    console.log(booking);
+    this.booking = booking;
+    this.selectedCategoryName = this.booking.categoryId;
+    this.formattedAmount = this.booking.amount;
+    let category: FinanceCategory | undefined;
+    if (booking.isCost)
+      category = this.costCategories.find(c => c.id == booking.categoryId);
+    else
+      category = this.incomeCategories.find(c => c.id == booking.categoryId);
 
-  cancel() {
-    this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
+    if (category != null)
+      this.selectedCategoryName = category.name;
+    else
+      this.selectedCategoryName = '---';
   }
-  async save() {
-    console.log(this.booking);
-    await this.dataService.write(this.booking);
-    this.readBookingsFromToday();
+  cancel() {
     this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
     this.formattedAmount = 0;
     this.selectedCategoryName = '---';
-    console.log("booking done.");
+  }
+  async save() {
+    await this.dataService.write(this.booking);
+    this.readBookingsFromToday();
+    this.cancel();
   }
 
   async readCostCategories(): Promise<void> {

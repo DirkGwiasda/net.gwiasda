@@ -26,8 +26,6 @@ export class FiMaBookingDataService {
       isCost: booking.isCost,
       amount: parseFloat(booking.amount.toString())
     };
-    console.log("submitting:");
-    console.log(data);
 
     await this.http.post(url, data, { headers }).toPromise();
   }

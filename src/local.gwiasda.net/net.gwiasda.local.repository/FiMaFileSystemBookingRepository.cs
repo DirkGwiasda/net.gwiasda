@@ -16,11 +16,19 @@ namespace Net.Gwiasda.Local.Repository
 
         public async Task CreateBookingAsync(Booking booking)
         {
-            if(booking == null) throw new ArgumentNullException(nameof(booking));
-
             var bookings = (await GetBookingsFromDay(booking.Timestamp)).ToList();
             bookings.Add(booking);
             await WriteBookingsFromDay(bookings);
+        }
+        public async Task DeleteBookingIfExistsAsync(Booking booking)
+        {
+            var bookings = (await GetBookingsFromDay(booking.Timestamp)).ToList();
+            var item = bookings.FirstOrDefault(b => b.Id == booking.Id);
+            if (item != null)
+            {
+                bookings.Remove(item);
+                await WriteBookingsFromDay(bookings);
+            }
         }
 
         public async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)

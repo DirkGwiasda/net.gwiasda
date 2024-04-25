@@ -9,6 +9,7 @@ namespace Net.Gwiasda.FiMa
     public interface IBookingRepository
     {
         Task CreateBookingAsync(Booking booking);
+        Task DeleteBookingIfExistsAsync(Booking booking);
         Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date);
     }
 }

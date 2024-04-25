@@ -2,7 +2,8 @@
 {
     public interface IBookingManager
     {
-        Task CreateBookingAsync(Booking booking);
+        Task CreateOrUpdateBookingAsync(Booking booking);
+        Task DeleteBookingAsync(Booking booking);
         Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date);
     }
 }

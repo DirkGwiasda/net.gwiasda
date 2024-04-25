@@ -54,7 +54,7 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 if (bookingViewModel == null) throw new ArgumentNullException(nameof(bookingViewModel));
                 var booking = bookingViewModel.ToBooking();
 
-                await _bookingManager.CreateBookingAsync(booking).ConfigureAwait(true);
+                await _bookingManager.CreateOrUpdateBookingAsync(booking).ConfigureAwait(true);
             }
             catch (Exception exc)
             {
