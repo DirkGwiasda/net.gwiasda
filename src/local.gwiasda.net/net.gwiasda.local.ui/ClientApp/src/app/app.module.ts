@@ -1,3 +1,4 @@
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +23,12 @@ import { FiMaCategorySelectionComponent } from './fima/fima-categories/fima-cate
 import { FiMaCategoriesComponent } from './fima/fima-categories/fima.categories.component';
 import { FiMaBookingComponent } from './fima/fima-booking/fima.booking.component';
 import { FiMaBookingFormComponent } from './fima/fima-booking/fima-booking-form/fima-booking-form.component';
+
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe);
 
 @NgModule({
   declarations: [
@@ -56,7 +63,9 @@ import { FiMaBookingFormComponent } from './fima/fima-booking/fima-booking-form/
     ])
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
+    { provide: LOCALE_ID, useValue: 'de' },
+    [CurrencyPipe]
   ],
   bootstrap: [AppComponent]
 })

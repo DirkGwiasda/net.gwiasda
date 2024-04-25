@@ -23,7 +23,7 @@ namespace Net.Gwiasda.Local.Repository
             await WriteBookingsFromDay(bookings);
         }
 
-        internal async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)
+        public async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)
         {
             var bookingFileName = GetFQBookingFileName(date);
             

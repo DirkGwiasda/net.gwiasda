@@ -10,5 +10,8 @@
 
         public async Task CreateBookingAsync(Booking booking)
          => await _repository.CreateBookingAsync(booking);
+
+        public async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)
+         => (await _repository.GetBookingsFromDay(date)).ToList();
     }
 }

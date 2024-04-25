@@ -6,6 +6,10 @@ import { FiMaBookingDataService } from '../fima-booking-data.service';
 import { FiMaCategoryDataService } from '../../fima-categories/fima-category-data.service';
 import { MatDialog } from '@angular/material/dialog';
 
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
 
 @Component({
   selector: 'app-fima-booking-form',
@@ -25,13 +29,35 @@ export class FiMaBookingFormComponent implements OnInit {
   incomeCategories: FinanceCategory[] = [];
   category: FinanceCategory = new FinanceCategory();
   selectedCategoryName: string = '---';
-  booking: Booking = { id: this.generateGUID(), timestamp: new Date(), text :'', categoryId: '', isCost: true };
+  booking: Booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
+  categoryKeys: string[] = [];
+  formattedAmount: number = 0;
+
+  bookingsPerTimeUnit: Map<string, Booking[]> = new Map<string, Booking[]>();
 
   ngOnInit() {
     this.readCostCategories();
     this.readIncomeCategories();
+    this.readBookingsFromToday();
   }
 
+  async readBookingsFromToday() {
+    this.dataService.readBookingsFromToday().subscribe(response => {
+      this.bookingsPerTimeUnit = new Map<string, Booking[]>(Object.entries(response));
+      this.categoryKeys = Object.keys(response);
+    });
+  }
+  getAmount(amount: number) {
+    return amount.toFixed(2);
+  }
+  updateModel(value: string) {
+    if (/^-?\d*\,\.?\d*$/g.test(value)) {
+      this.booking.amount = parseFloat(value.replace(/./g, ''));
+      this.booking.amount = parseFloat(value.replace(/,/g, '.'));
+    }
+    else
+      this.formattedAmount = 0;
+  }
   selectCategory() {
     const dialogRef = this.dialog.open(FiMaCategorySelectionComponent,
       {
@@ -60,11 +86,16 @@ export class FiMaBookingFormComponent implements OnInit {
   }
 
   cancel() {
-
+    this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
   }
   async save() {
     console.log(this.booking);
     await this.dataService.write(this.booking);
+    this.readBookingsFromToday();
+    this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
+    this.formattedAmount = 0;
+    this.selectedCategoryName = '---';
+    console.log("booking done.");
   }
 
   async readCostCategories(): Promise<void> {

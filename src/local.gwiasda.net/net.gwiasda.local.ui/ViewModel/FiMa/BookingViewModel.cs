@@ -10,6 +10,7 @@
             Text = booking.Text;
             CategoryId = booking.CategoryId.ToString();
             IsCost = booking.IsCost;
+            Amount = booking.Amount;
         }
 
         public string Id { get; set; } = Guid.NewGuid().ToString();
@@ -26,7 +27,8 @@
                 Timestamp = Timestamp,
                 Text = Text,
                 CategoryId = Guid.Parse(CategoryId),
-                IsCost = IsCost
+                IsCost = IsCost,
+                Amount = Amount
             };
     }
 }

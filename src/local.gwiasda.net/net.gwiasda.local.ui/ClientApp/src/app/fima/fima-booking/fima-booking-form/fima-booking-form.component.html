@@ -1,41 +1,71 @@
-<h4>Buchung erfassen</h4>
-
-<table>
-  <tbody>
-    <tr>
-      <td class="formName">ID:</td>
-      <td class="formField"><label>{{booking?.id}}</label></td>
-    </tr>
-    <tr>
-      <td class="formName">Datum:</td>
-      <td>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="booking.timestamp">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </td>
-    </tr>
-    <tr>
-      <td class="formName">Text:</td>
-      <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.text" /></td>
-    </tr>
-    <tr>
-      <td class="formName">Betrag:</td>
-      <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.amount" /></td>
-    </tr>
-    <tr>
-      <td class="formName">Sind es Kosten ?</td>
-      <td class="formField">
-        <input type="checkbox" [(ngModel)]="booking.isCost">
-      </td>
-    </tr>
-    <tr>
-      <td class="formName">Kategorie:</td>
-      <td class="formField a"><a (click)="selectCategory();">{{selectedCategoryName}}</a></td>
-    </tr>
-    <tr>
-      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span></td>
-      <td>&nbsp;</td>
-      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span></td>
-    </tr>
-  </tbody>
-</table>
+<div class="container">
+  <div class="flexItem">
+    <h4>Buchung erfassen</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="formName">ID:</td>
+          <td class="formField"><label>{{booking?.id}}</label></td>
+        </tr>
+        <tr>
+          <td class="formName">Datum:</td>
+          <td>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="booking.timestamp">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </td>
+        </tr>
+        <tr>
+          <td class="formName">Text:</td>
+          <td class="formField"><input class="formInput" type="text" [(ngModel)]="booking.text" /></td>
+        </tr>
+        <tr>
+          <td class="formName">Betrag:</td>
+          <td class="formField"><input class="formInput" type="text" [(ngModel)]="formattedAmount" (ngModelChange)="updateModel($event)" /></td>
+        </tr>
+        <tr>
+          <td class="formName">Sind es Kosten ?</td>
+          <td class="formField">
+            <input type="checkbox" [(ngModel)]="booking.isCost">
+          </td>
+        </tr>
+        <tr>
+          <td class="formName">Kategorie:</td>
+          <td class="formField a"><a (click)="selectCategory();">{{selectedCategoryName}}</a></td>
+        </tr>
+        <tr>
+          <td class="tableButton" colspan="2">
+            <span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span>
+            &nbsp;
+            <span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="flexItem" style="border-right: 1px solid;">&nbsp;</div>
+  <div class="flexItem">
+    <h4>Buchungsübersicht für heute</h4>
+    <table>
+      <ng-container *ngFor="let cat of categoryKeys">
+        <tr>
+          <td width="200" style="vertical-align: top" class="categoryName">{{ cat }}</td>
+          <td>
+            <table>
+              <ng-container *ngFor="let item of bookingsPerTimeUnit.get(cat)">
+                <tr>
+                  <td width="120" class="categoryName">{{ item.timestamp | date:'dd.MM.yyyy' }}</td>
+                  <td width="320" class="categoryName">{{ item.text }}</td>
+                  <td width="80" style="text-align: right;" class="categoryName">{{ item.amount | number: '1.2-2' }} €</td>
+                </tr>
+              </ng-container>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="border-bottom: 1px solid; height: 1px;">&nbsp;</td>
+        </tr>
+      </ng-container>
+    </table>
+  </div>
+</div>

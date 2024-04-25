@@ -7,4 +7,8 @@
     <RootNamespace>Net.Gwiasda.FiMa</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\net.gwiasda.fima.categories\net.gwiasda.fima.categories.csproj" />
+  </ItemGroup>
+
 </Project>

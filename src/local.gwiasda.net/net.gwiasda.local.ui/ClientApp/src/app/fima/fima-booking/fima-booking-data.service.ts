@@ -18,6 +18,21 @@ export class FiMaBookingDataService {
     headers.set('Content-Type', 'application/json');
     const url = 'fimabooking/Save';
 
-    await this.http.post(url, booking, { headers }).toPromise();
+    var data = {
+      id: booking.id,
+      timestamp: booking.timestamp,
+      text: booking.text,
+      categoryId: booking.categoryId,
+      isCost: booking.isCost,
+      amount: parseFloat(booking.amount.toString())
+    };
+    console.log("submitting:");
+    console.log(data);
+
+    await this.http.post(url, data, { headers }).toPromise();
+  }
+  readBookingsFromToday(): Observable<Map<string, Booking>> {
+    const headers = this.getDefaultHeaders();
+    return this.http.get<Map<string, Booking>>('fimabooking/GetBookingsFromToday', { headers });
   }
 }
