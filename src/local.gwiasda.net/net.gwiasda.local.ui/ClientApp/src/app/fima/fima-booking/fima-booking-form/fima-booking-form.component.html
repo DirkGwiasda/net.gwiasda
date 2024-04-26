@@ -21,7 +21,7 @@
         </tr>
         <tr>
           <td class="formName">Betrag:</td>
-          <td class="formField"><input class="formInput" type="text" [(ngModel)]="formattedAmount" (ngModelChange)="updateModel($event)" /></td>
+          <td class="formField"><input id="formattedAmountInput" class="formInput" type="text" [(ngModel)]="formattedAmount" (ngModelChange)="updateModel($event)" /></td>
         </tr>
         <tr>
           <td class="formName">Sind es Kosten ?</td>
@@ -45,6 +45,6 @@
   </div>
   <div class="flexItem" style="border-right: 1px solid;">&nbsp;</div>
   <div class="flexItem">
-    <app-fima-booking-overview [injectedDate]="date"></app-fima-booking-overview>
+    <app-fima-booking-overview [injectedDate]="date" (selected)="edit($event)"></app-fima-booking-overview>
   </div>
 </div>

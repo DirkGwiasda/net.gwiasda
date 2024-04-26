@@ -74,21 +74,25 @@ export class FiMaBookingFormComponent implements OnInit {
     });
   }
   edit(booking: Booking) {
-    //console.log("edit");
-    //console.log(booking);
-    //this.booking = booking;
-    //this.selectedCategoryName = this.booking.categoryId;
-    //this.formattedAmount = this.booking.amount;
-    //let category: FinanceCategory | undefined;
-    //if (booking.isCost)
-    //  category = this.costCategories.find(c => c.id == booking.categoryId);
-    //else
-    //  category = this.incomeCategories.find(c => c.id == booking.categoryId);
 
-    //if (category != null)
-    //  this.selectedCategoryName = category.name;
-    //else
-    //  this.selectedCategoryName = '---';
+    this.booking = Object.assign({}, booking);
+    this.selectedCategoryName = this.booking.categoryId;
+
+    this.formattedAmount = this.booking.amount;
+    this.setFormattedAmountInputToGerman(this.booking.amount);
+    
+
+    this.hackDate = booking.timestamp;
+    let category: FinanceCategory | undefined;
+    if (booking.isCost)
+      category = this.costCategories.find(c => c.id == booking.categoryId);
+    else
+      category = this.incomeCategories.find(c => c.id == booking.categoryId);
+
+    if (category != null)
+      this.selectedCategoryName = category.name;
+    else
+      this.selectedCategoryName = '---';
   }
   cancel() {
     this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
@@ -104,6 +108,15 @@ export class FiMaBookingFormComponent implements OnInit {
     this.cancel();
   }
 
+  setFormattedAmountInputToGerman(value: number) {
+    var el = document.getElementById("formattedAmountInput");
+    if (el instanceof HTMLInputElement) {
+      el.value = value.toString().replace(".", ",");
+      this.cdr.detectChanges();
+      this.cdr.markForCheck();
+      console.log("value set to " + el.value);
+    }
+  }
   getFuckingHackDate(): Date {
     var el = document.getElementById("bookingdate");
     if (el instanceof HTMLInputElement) {

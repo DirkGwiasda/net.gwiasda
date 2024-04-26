@@ -47,20 +47,5 @@ export class FiMaBookingOverviewComponent implements OnInit, OnChanges {
   edit(booking: Booking) {
     if(booking)
       this.selected.emit(booking);
-    //console.log("edit");
-    //console.log(booking);
-    //this.booking = booking;
-    //this.selectedCategoryName = this.booking.categoryId;
-    //this.formattedAmount = this.booking.amount;
-    //let category: FinanceCategory | undefined;
-    //if (booking.isCost)
-    //  category = this.costCategories.find(c => c.id == booking.categoryId);
-    //else
-    //  category = this.incomeCategories.find(c => c.id == booking.categoryId);
-
-    //if (category != null)
-    //  this.selectedCategoryName = category.name;
-    //else
-    //  this.selectedCategoryName = '---';
   }
 }
