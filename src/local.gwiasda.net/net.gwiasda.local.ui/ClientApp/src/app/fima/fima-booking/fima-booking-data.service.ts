@@ -24,8 +24,14 @@ export class FiMaBookingDataService {
       text: booking.text,
       categoryId: booking.categoryId,
       isCost: booking.isCost,
-      amount: parseFloat(booking.amount.toString())
+      amount: parseFloat(booking.amount.toString()),
+      recurringType: booking.recurringType,
+      endDate: booking.endDate
     };
+
+    //console.log("writing booking:::::::::::::::::");
+    //console.log(JSON.stringify(data));
+
     await this.http.post(url, data, { headers }).toPromise();
   }
   readBookingsFromDay(date: Date): Observable<Map<string, Booking>> {
@@ -37,5 +43,9 @@ export class FiMaBookingDataService {
     };
     const formattedDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '');
     return this.http.get<Map<string, Booking>>('fimabooking/GetBookingsFromToday?date=' + formattedDate, { headers });
+  }
+  readRecurringBookings(): Observable<Booking[]> {
+    const headers = this.getDefaultHeaders();
+    return this.http.get<Booking[]>('fimabooking/GetRecurringBookings', { headers });
   }
 }

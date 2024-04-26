@@ -1,0 +1,20 @@
+
+<h4>Wiederholende Buchungen</h4>
+<table>
+  <tr style="border-bottom: 1px solid;">
+    <td colspan="4"></td>
+  </tr>
+  <ng-container *ngFor="let booking of recurringBookings">
+    <tr>
+      <td width="320" style="vertical-align: top" class="categoryName">{{ getCategoryName(booking) }}</td>
+      <td width="80" style="text-align:right;padding-right:10px;" class="categoryName">{{ booking.amount | number: '1.2-2' }} €</td>
+      <td colspan="2" class="categoryName">{{ booking.recurringType }}</td>
+    </tr>
+    <tr style="border-bottom: 1px solid;">
+      <td width="320" class="categoryName"><a class="a" (click)="edit(booking)">{{ booking.text }}</a></td>
+      <td></td>
+      <td width="160" class="categoryName">seit {{ booking.timestamp | date:'dd.MM.yyyy' }}</td>
+      <td width="160" class="categoryName">bis {{ (booking.endDate | date:'dd.MM.yyyy') ?? 'Ende offen' }}</td>
+    </tr>
+  </ng-container>
+</table>

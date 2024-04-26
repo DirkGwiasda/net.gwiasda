@@ -34,6 +34,25 @@
           <td class="formField a"><a (click)="selectCategory();">{{selectedCategoryName}}</a></td>
         </tr>
         <tr>
+          <td class="formName">Wiederholend:</td>
+          <td class="formField a">
+            <select [(ngModel)]="booking.recurringType">
+              <option value="einmalig">einmalig</option>
+              <option value="monatlich">monatlich</option>
+              <option value="quartalsweise">quartalsweise</option>
+              <option value="jährlich">jährlich</option>
+            </select>
+          </td>
+        </tr>
+        <tr [hidden]="booking.recurringType == 'einmalig1'">
+          <td class="formName">End-Datum:</td>
+          <td>
+            <input id="endDate" matInput [matDatepicker]="pickerEndDate" [(ngModel)]="hackEndDate">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEndDate></mat-datepicker>
+          </td>
+        </tr>
+        <tr>
           <td class="tableButton" colspan="2">
             <span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span>
             &nbsp;
@@ -45,6 +64,18 @@
   </div>
   <div class="flexItem" style="border-right: 1px solid;">&nbsp;</div>
   <div class="flexItem">
-    <app-fima-booking-overview [injectedDate]="date" (selected)="edit($event)"></app-fima-booking-overview>
+    <div>
+      <a class="a" (click)="switchOverview(false)">Tagesübersicht</a>
+      |
+      <a class="a" (click)="switchOverview(true)">Wiederholende Buchungen</a>
+    </div>
+    <div [hidden]="this.showRecurring">
+      <app-fima-booking-overview [injectedDate]="date" (selected)="edit($event)"></app-fima-booking-overview>
+    </div>
+    <div [hidden]="!this.showRecurring">
+      <app-fima-recurring-booking-overview [recurringBookings]="this.recurringBookings" [costCategories]="this.costCategories"
+                                            (selected)="edit($event)" [incomeCategories]="this.incomeCategories">
+      </app-fima-recurring-booking-overview>
+    </div>
   </div>
 </div>

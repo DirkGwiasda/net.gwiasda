@@ -24,5 +24,20 @@
 
         public async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)
          => (await _repository.GetBookingsFromDay(date)).ToList();
+
+        public async Task CreateOrUpdateRecurringBookingAsync(RecurringBooking recurringBooking)
+        {
+            if (recurringBooking == null) throw new ArgumentNullException(nameof(recurringBooking));
+
+            await _repository.DeleteRecurringBookingIfExistsAsync(recurringBooking);
+            await _repository.CreateRecurringBookingAsync(recurringBooking);
+        }
+        public async Task DeleteRecurringBookingAsync(RecurringBooking recurringBooking)
+        {
+            if (recurringBooking == null) throw new ArgumentNullException(nameof(recurringBooking));
+            await _repository.DeleteRecurringBookingIfExistsAsync(recurringBooking);
+        }
+        public async Task<IEnumerable<RecurringBooking>> GetRecurringBookings()
+            => (await _repository.GetRecurringBookings()).Where(rb => rb.EndDate == null || rb.EndDate.Value > DateTime.Now).ToList();
     }
 }

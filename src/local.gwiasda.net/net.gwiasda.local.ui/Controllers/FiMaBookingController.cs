@@ -50,6 +50,18 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 throw;
             }
         }
+        public async Task<IEnumerable<BookingViewModel>> GetRecurringBookings()
+        {
+            try
+            {
+                return (await _bookingManager.GetRecurringBookings()).Select(rb => new BookingViewModel(rb));
+            }
+            catch (Exception exc)
+            {
+                await _loggingManager.CreateErrorAsync(APP_NAME, exc);
+                throw;
+            }
+        }
 
         [HttpPost]
         public async Task Save([FromBody] BookingViewModel bookingViewModel)
@@ -57,9 +69,19 @@ namespace Net.Gwiasda.Local.UI.Controllers
             try
             {
                 if (bookingViewModel == null) throw new ArgumentNullException(nameof(bookingViewModel));
-                var booking = bookingViewModel.ToBooking();
 
-                await _bookingManager.CreateOrUpdateBookingAsync(booking).ConfigureAwait(true);
+                var recurringType = BookingViewModel.RecurringTypes.FirstOrDefault(x => x.Value == bookingViewModel.RecurringType).Key;
+                if (recurringType == RecurringType.None || recurringType == RecurringType.Once)
+                {
+                    var booking = bookingViewModel.ToBooking();
+                    await _bookingManager.CreateOrUpdateBookingAsync(booking).ConfigureAwait(true);
+                }
+                else
+                {
+                    var recurringBooking = bookingViewModel.ToRecurringBooking();
+                    await _bookingManager.CreateOrUpdateRecurringBookingAsync(recurringBooking).ConfigureAwait(true);
+                }
+                
             }
             catch (Exception exc)
             {

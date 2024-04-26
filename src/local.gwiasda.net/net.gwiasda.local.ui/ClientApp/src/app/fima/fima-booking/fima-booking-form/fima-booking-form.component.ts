@@ -19,20 +19,23 @@ export class FiMaBookingFormComponent implements OnInit {
     this.categoryDataService = categoryDataService;
   }
 
+  showRecurring: boolean = false;
   date: Date = new Date();
   dataService: FiMaBookingDataService;
   categoryDataService: FiMaCategoryDataService;
   costCategories: FinanceCategory[] = [];
   incomeCategories: FinanceCategory[] = [];
+  recurringBookings: Booking[] = [];
   category: FinanceCategory = new FinanceCategory();
   selectedCategoryName: string = '---';
-  booking: Booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
+  booking: Booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0, recurringType: 'einmalig', endDate: null };
   formattedAmount: number = 0;
   hackDate: Date = new Date();
+  hackEndDate: Date | null = null;
 
   ngOnInit() {
-    this.readCostCategories();
-    this.readIncomeCategories();
+    this.readCategories();
+    this.readRecurringBookings();
   }
   getAmount(amount: number) {
     return amount.toFixed(2);
@@ -74,14 +77,13 @@ export class FiMaBookingFormComponent implements OnInit {
     });
   }
   edit(booking: Booking) {
-
     this.booking = Object.assign({}, booking);
     this.selectedCategoryName = this.booking.categoryId;
 
     this.formattedAmount = this.booking.amount;
     this.setFormattedAmountInputToGerman(this.booking.amount);
     
-
+    this.hackEndDate = booking.endDate;
     this.hackDate = booking.timestamp;
     let category: FinanceCategory | undefined;
     if (booking.isCost)
@@ -95,16 +97,19 @@ export class FiMaBookingFormComponent implements OnInit {
       this.selectedCategoryName = '---';
   }
   cancel() {
-    this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0 };
+    this.booking = { id: this.generateGUID(), timestamp: new Date(), text: '', categoryId: '', isCost: true, amount: 0, recurringType: this.booking.recurringType, endDate: null };
     this.formattedAmount = 0;
     this.selectedCategoryName = '---';
   }
   async save() {
 
     this.booking.timestamp = this.getFuckingHackDate();
+    this.booking.endDate = this.getFuckingHackEndDate();
 
     await this.dataService.write(this.booking);
     this.date = this.booking.timestamp;
+    if(this.booking.recurringType != null && this.booking.recurringType != 'einmalig')
+      await this.readRecurringBookings();
     this.cancel();
   }
 
@@ -126,20 +131,36 @@ export class FiMaBookingFormComponent implements OnInit {
     }
     return this.booking.timestamp;
   }
+  getFuckingHackEndDate(): Date | null {
+    var el = document.getElementById("endDate");
+    if (el instanceof HTMLInputElement) {
+      const dateParts = el.value.split('.');
+      if (dateParts.length === 3)
+        return new Date(parseInt(dateParts[2]), parseInt(dateParts[1]) - 1, parseInt(dateParts[0]), 8, 0, 0);
+    }
+    return null;
+  }
+  switchOverview(showRecurring: boolean) {
+    this.showRecurring = showRecurring;
+  }
 
-  async readCostCategories(): Promise<void> {
-    this.categoryDataService.readCostCategories()
+  async readCategories(): Promise<void> {
+    await this.categoryDataService.readCostCategories()
       .then(costCategories => {
         this.costCategories = costCategories ?? [];
       });
-  }
-  async readIncomeCategories(): Promise<void> {
-    this.categoryDataService.readIncomeCategories()
+    await this.categoryDataService.readIncomeCategories()
       .then(incomeCategories => {
         this.incomeCategories = incomeCategories ?? [];
       });
   }
-
+  async readRecurringBookings(): Promise<void> {
+    this.dataService.readRecurringBookings().subscribe(response => {
+      this.recurringBookings = response;
+      console.log(response);
+    });
+  }
+  
   generateGUID(): string {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       var r = Math.random() * 16 | 0,

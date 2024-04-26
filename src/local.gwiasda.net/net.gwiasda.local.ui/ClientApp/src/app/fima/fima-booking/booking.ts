@@ -5,4 +5,6 @@ export class Booking {
   categoryId: string = '';
   isCost: boolean = false;
   amount: number = 0;
+  recurringType: string = 'einmalig';
+  endDate: Date | null = null;
 }

@@ -11,5 +11,8 @@ namespace Net.Gwiasda.FiMa
         Task CreateBookingAsync(Booking booking);
         Task DeleteBookingIfExistsAsync(Booking booking);
         Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date);
+        Task CreateRecurringBookingAsync(RecurringBooking recurringBooking);
+        Task DeleteRecurringBookingIfExistsAsync(RecurringBooking recurringBooking);
+        Task<IEnumerable<RecurringBooking>> GetRecurringBookings();
     }
 }

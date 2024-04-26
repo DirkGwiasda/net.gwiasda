@@ -8,5 +8,7 @@ namespace Net.Gwiasda.FiMa
 {
     public class RecurringBooking : Booking
     {
+        public RecurringType RecurringType { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

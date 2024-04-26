@@ -40,13 +40,48 @@ namespace Net.Gwiasda.Local.Repository
             var json = await File.ReadAllTextAsync(bookingFileName);
             return JsonSerializer.Deserialize<IEnumerable<Booking>>(json) ?? Enumerable.Empty<Booking>();
         }
+
+        public async Task CreateRecurringBookingAsync(RecurringBooking recurringBooking)
+        {
+            var recurringBookings = (await GetRecurringBookings()).ToList();
+            recurringBookings.Add(recurringBooking);
+            await WriteRecurringBookings(recurringBookings);
+        }
+        public async Task DeleteRecurringBookingIfExistsAsync(RecurringBooking recurringBooking)
+        {
+            var recurringBookings = (await GetRecurringBookings()).ToList();
+            var item = recurringBookings.FirstOrDefault(b => b.Id == recurringBooking.Id);
+            if (item != null)
+            {
+                recurringBookings.Remove(item);
+                await WriteRecurringBookings(recurringBookings);
+            }
+        }
+        public async Task<IEnumerable<RecurringBooking>> GetRecurringBookings()
+        {
+            var fileName = GetFQRecurringBookingFileName();
+
+            if (!File.Exists(fileName)) return Enumerable.Empty<RecurringBooking>();
+
+            var json = await File.ReadAllTextAsync(fileName);
+            return JsonSerializer.Deserialize<IEnumerable<RecurringBooking>>(json) ?? Enumerable.Empty<RecurringBooking>();
+        }
+
         internal async Task WriteBookingsFromDay(IEnumerable<Booking> bookings)
         {
             var json = JsonSerializer.Serialize(bookings);
             var bookingFileName = GetFQBookingFileName(bookings.First().Timestamp);
             await File.WriteAllTextAsync(bookingFileName, json);
         }
+        internal async Task WriteRecurringBookings(IEnumerable<RecurringBooking> bookings)
+        {
+            var json = JsonSerializer.Serialize(bookings);
+            var fileName = GetFQRecurringBookingFileName();
+            await File.WriteAllTextAsync(fileName, json);
+        }
 
+        internal string GetFQRecurringBookingFileName()
+            => Path.Combine(base.GetBaseDirectory(BookingDirectory), $"recurring{BookingFileExtension}");
         internal string GetFQBookingFileName(DateTime date)
             => Path.Combine(GetBookingMonthDirectory(date), $"{date:yyyy_MM_dd}{BookingFileExtension}");
         internal string GetBookingMonthDirectory(DateTime date)
