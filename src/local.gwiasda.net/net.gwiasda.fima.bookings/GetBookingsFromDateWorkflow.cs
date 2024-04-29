@@ -21,10 +21,10 @@ namespace Net.Gwiasda.FiMa
         {
             var categories = await GetAllCategories();
 
-            var bookingsFromToday = await _bookingManager.GetBookingsFromDay(day);
+            var bookingsFromDay = await _bookingManager.GetBookingsFromDay(day);
 
             var result = new Dictionary<string, List<Booking>>();
-            foreach(var booking in bookingsFromToday)
+            foreach(var booking in bookingsFromDay)
             {
                 var category = categories.FirstOrDefault(c => c.Id == booking.CategoryId);
 

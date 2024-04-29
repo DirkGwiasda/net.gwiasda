@@ -9,6 +9,7 @@ const PROXY_CONFIG = [
       "/logging",
       "/fimacategory",
       "/fimabooking",
+      "/fimareport"
    ],
     target: target,
     secure: false,
