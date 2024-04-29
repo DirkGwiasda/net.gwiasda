@@ -26,19 +26,19 @@ namespace Net.Gwiasda.FiMa
             var costCategoryReports = GetCategoryReports(true, bookings, categories);
             var incomeCategoryReports = GetCategoryReports(false, bookings, categories);
 
-            result.CostCategoryReports.AddRange(CreateCategoryTree(costCategoryReports));
-            result.IncomeCategoryReports.AddRange(CreateCategoryTree(incomeCategoryReports));
+            ForceParentCategoriesExist(costCategoryReports, categories);
+            ForceParentCategoriesExist(incomeCategoryReports, categories);
 
-            ForceParentCategoriesExist(result.CostCategoryReports, categories, true);
-            ForceParentCategoriesExist(result.IncomeCategoryReports, categories, false);
+            var trees = CreateCategoryTrees(costCategoryReports);
+            result.CostCategoryReports.AddRange(trees);
 
-            CreateCategoryTree(result.CostCategoryReports);
-            CreateCategoryTree(result.IncomeCategoryReports);
+            trees = CreateCategoryTrees(incomeCategoryReports);
+            result.IncomeCategoryReports.AddRange(trees);
 
             return result;
         }
 
-        internal List<CategoryReport> CreateCategoryTree(List<CategoryReport> categoryReports)
+        internal List<CategoryReport> CreateCategoryTrees(List<CategoryReport> categoryReports)
         {
             var result = new List<CategoryReport>();
             var handledIds = new List<Guid>();
@@ -68,29 +68,30 @@ namespace Net.Gwiasda.FiMa
 
             parentCategoryReport.ChildCategories.Sort((a, b) => a.Category.Position.CompareTo(b.Category.Position));
         }
-        internal void ForceParentCategoriesExist(List<CategoryReport> categoryReports, IEnumerable<FinanceCategory> categories, bool isCost)
+        internal void ForceParentCategoriesExist(List<CategoryReport> categoryReports, IEnumerable<FinanceCategory> categories)
         {
             var handledIds = categoryReports.Select(cr => cr.Category.Id).ToList();
+            var items2Add = new List<CategoryReport>();
             foreach(var categoryReport in categoryReports)
             {
-                ForceParentCategoryIsHandled(categoryReport.Category.ParentId, categoryReports, handledIds, categories, isCost);
+                ForceParentCategoryExist(categoryReport, categoryReports, handledIds, categories, items2Add);
             }
-            
+            categoryReports.AddRange(items2Add);
         }
-        internal void ForceParentCategoryIsHandled(Guid? parentCategoryId, List<CategoryReport> categoryReports, List<Guid> handledIds, IEnumerable<FinanceCategory> categories, bool isCost)
+        internal void ForceParentCategoryExist(CategoryReport categoryReport, List<CategoryReport> categoryReports, List<Guid> handledIds, IEnumerable<FinanceCategory> categories, List<CategoryReport> items2add)
         {
-            if(parentCategoryId == null)
+            if(categoryReport?.Category?.ParentId == null)
                 return;
 
-            if (!handledIds.Contains(parentCategoryId.Value))
+            if (!handledIds.Contains(categoryReport.Category.ParentId.Value))
             {
-                var category = categories.FirstOrDefault(c => c.Id == parentCategoryId.Value);
-                if (category == null)
-                    throw new InvalidOperationException($"No category found with id '{parentCategoryId.Value}' - isCost: {isCost}.");
-                var categoryReport = new CategoryReport { Category = category, IsCost = isCost };
-                categoryReports.Add(categoryReport);
-                handledIds.Add(categoryReport.Category.Id);
-                ForceParentCategoryIsHandled(category.ParentId, categoryReports, handledIds, categories, isCost);
+                var parentCategory = categories.FirstOrDefault(c => c.Id == categoryReport.Category.ParentId.Value);
+                if (parentCategory == null)
+                    throw new InvalidOperationException($"No category found with id '{categoryReport.Category.ParentId.Value}' - isCost: {categoryReport.IsCost}.");
+                var parentCategoryReport = new CategoryReport { Category = parentCategory, IsCost = categoryReport.IsCost };
+                items2add.Add(parentCategoryReport);
+                handledIds.Add(parentCategoryReport.Category.Id);
+                ForceParentCategoryExist(parentCategoryReport, categoryReports, handledIds, categories, items2add);
             }
         }
 
