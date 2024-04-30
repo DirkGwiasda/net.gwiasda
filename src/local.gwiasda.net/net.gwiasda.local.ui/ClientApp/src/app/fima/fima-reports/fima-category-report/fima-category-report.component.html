@@ -1,3 +1,39 @@
-<div>
-  <label>{{ this.categoryReport?.category?.name }}</label>
-</div>
+
+<table>
+  <thead>
+    <tr>
+      <th width="20px"></th>
+      <th width="90%"></th>
+      <th width="80px"></th>
+    </tr>
+  </thead>
+  <tr>
+    <td colspan="2">{{ this.categoryReport?.category?.name }}</td>
+    <td style="border: 1px solid red;">{{ this.categoryReport?.sum }}</td>
+  </tr>
+  <tr>
+    <td style="width:20px;border: 1px solid red;">&nbsp;</td>
+    <td style="border: 1px solid red;">
+      <table>
+        <ng-container *ngFor="let booking of categoryReport?.bookings">
+          <tr style="border-bottom: 1px solid; height: 1px;">
+            <td width="120" class="categoryName">{{ booking.timestamp | date:'dd.MM.yyyy' }}</td>
+            <td width="320" class="categoryName">{{ booking.text }}</td>
+            <td width="80" style="text-align: right;" class="categoryName">{{ booking.amount | number: '1.2-2' }} €</td>
+          </tr>
+        </ng-container>
+      </table>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="width:20px;">&nbsp;</td>
+    <td>
+      <ng-container *ngFor="let childCategory of categoryReport?.childCategories">
+        <app-fima-category-report [categoryReport]="childCategory"></app-fima-category-report>
+      </ng-container>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
