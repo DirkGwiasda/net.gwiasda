@@ -1,0 +1,26 @@
+<h3 mat-dialog-title [hidden]="!this.categoryReport?.category?.isCostCategory">Kosten</h3>
+<h3 mat-dialog-title [hidden]="this.categoryReport?.category?.isCostCategory">Einnahmen</h3>
+<h4>{{ this.categoryReport?.category?.name }}</h4>
+
+<mat-dialog-content>
+
+  <div>
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="date">
+        <td mat-cell *matCellDef="let booking" width="120px">{{ booking.timestamp  | date:'dd.MM.yyyy' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <td mat-cell *matCellDef="let booking" width="320px">{{ booking.text }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="amount">
+        <td mat-cell *matCellDef="let booking" class="currency" width="92px">{{ booking.amount | number: '1.2-2' }} €</td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="borderBottom"></tr>
+
+    </table>
+  </div>
+</mat-dialog-content>

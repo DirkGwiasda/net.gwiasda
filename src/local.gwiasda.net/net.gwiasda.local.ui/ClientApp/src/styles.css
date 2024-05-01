@@ -1,6 +1,14 @@
+@import url('styles/containers.css');
+@import url('styles/distancesAndBorders.css');
+@import url('styles/tables.css');
+@import url('styles/dynamics.css');
+
 body {
   font-family: 'Electrolize', sans-serif;
   background-color: #323232;
+  color: #cccccc;
+}
+.mat-cell {
   color: #cccccc;
 }
 
@@ -14,6 +22,11 @@ input {
   font-style: normal;
   src: url('/assets/fonts/material-symbols/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].woff2') format('woff2'),
       url('/assets/fonts/material-symbols/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].ttf') format('truetype')
+}
+
+.currency {
+  width: 92px;
+  text-align: right;
 }
 
 .formName {
@@ -135,16 +148,7 @@ hr {
     background-image: url('assets/del.png');
   }
 
-.container {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: row;
-}
 
-.flexItem {
-  margin: 0px 0px 0px 10px;
-}
 
 .table th, .table td {
   padding: 0px;

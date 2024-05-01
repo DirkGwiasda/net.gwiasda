@@ -1,0 +1,37 @@
+.borderBottom {
+    border-bottom: 1px solid;
+}
+.borderFull {
+    border: 1px solid;
+}
+
+.borderLR {
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+.borderLRB {
+  border-bottom: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.marginBottomSmall {
+    margin-bottom: 10px;
+}
+.marginBottomMedium {
+  margin-bottom: 20px;
+}
+.marginLRSmall {
+  margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+.paddingLRSmall {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.paddingLSmall {
+  padding-left: 5px;
+}
+.paddingRSmall {
+  padding-right: 5px;
+}

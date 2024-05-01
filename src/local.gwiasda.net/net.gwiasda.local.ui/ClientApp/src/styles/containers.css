@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+  padding: 0px;
+}
+.defaultContainer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.flexItem {
+  margin: 0px;
+  padding: 0px;
+}
+.defaultFlexItem {
+  margin: 0px 0px 0px 10px;
+}

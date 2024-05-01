@@ -1,12 +1,12 @@
 
-<div class="container">
-  <div class="flexItem"><h4>Buchungsübersicht für den </h4></div>
-  <div class="flexItem">
+<div class="defaultContainer">
+  <div class="defaultFlexItem"><h4>Buchungsübersicht für den </h4></div>
+  <div class="defaultFlexItem">
     <input matInput [matDatepicker]="picker" [(ngModel)]="date">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </div>
-  <div class="flexItem">
+  <div class="defaultFlexItem">
     <span class="material-symbols-form-button material-symbols-rounded" (click)="readBookingsFromDay()">refresh</span>
   </div>
 </div>

@@ -19,15 +19,16 @@ namespace Net.Gwiasda.FiMa
         {
             var firstDay = new DateTime(month.Year, month.Month, 1);
             var lastDay = firstDay.AddMonths(1).AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
-
+            
             var result = new List<Booking>();
 
             var currentDay = firstDay;
 
-            while(currentDay.Day <= lastDay.Day)
+            while(currentDay.Date <= lastDay.Date)
             {
                 var bookingsFromDay = await _bookingManager.GetBookingsFromDay(currentDay);
-                result.AddRange(bookingsFromDay);
+                if(bookingsFromDay.Any())
+                    result.AddRange(bookingsFromDay);
                 currentDay = currentDay.AddDays(1);
             }
             
