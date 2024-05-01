@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /src/local.gwiasda.net/net.gwiasda.local.ui/ClientApp/.angular/cache/14.0.3
 /src/HelloAngularMaterial/HelloAngularMaterial/ClientApp/.angular/cache/14.0.3
+/src/local.gwiasda.net/net.gwiasda.local.ui/ClientApp/src/app/home/links.html
