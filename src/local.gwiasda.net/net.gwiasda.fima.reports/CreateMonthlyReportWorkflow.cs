@@ -98,6 +98,9 @@ namespace Net.Gwiasda.FiMa
         }
         internal void AddSumToParentSum(List<CategoryReport> categoryReports)
         {
+            if(categoryReports == null || categoryReports.Count == 0)
+                return;
+
             var maxHierarchy = categoryReports.Max(cr => cr.Category.Hierarchy);
             for (int i = maxHierarchy; i > 0; i--)
             {
