@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FiMaComponent {
 
-  activeFrame: string = 'reports';
+  activeFrame: string = 'booking';
 
   setActiveFrame(frame: string) {
     this.activeFrame = frame;
