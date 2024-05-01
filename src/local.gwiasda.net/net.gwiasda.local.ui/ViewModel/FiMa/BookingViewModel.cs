@@ -9,6 +9,7 @@ namespace Net.Gwiasda.Local.UI.ViewModel.FiMa
             { Net.Gwiasda.FiMa.RecurringType.None, "einmalig" },
             { Net.Gwiasda.FiMa.RecurringType.Once, "einmalig" },
             { Net.Gwiasda.FiMa.RecurringType.Monthly, "monatlich" },
+            { Net.Gwiasda.FiMa.RecurringType.Quarter, "quartalsweise" },
             { Net.Gwiasda.FiMa.RecurringType.Yearly, "jährlich" }
         };
 

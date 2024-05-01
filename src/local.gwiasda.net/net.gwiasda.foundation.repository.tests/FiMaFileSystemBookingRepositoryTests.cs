@@ -23,7 +23,7 @@ namespace net.gwiasda.foundation.repository.tests
                 $"2024_03_20{FiMaFileSystemBookingRepository.BookingFileExtension}");
 
             // Act
-            var actualFileName = test.GetFQBookingFileName(new DateTime(2024, 3, 20));
+            var actualFileName = test.GetFQBookingFileName(new DateTime(2024, 3, 20), false);
 
             // Assert
             Assert.Equal(expectedFileName, actualFileName);
@@ -39,7 +39,7 @@ namespace net.gwiasda.foundation.repository.tests
                 test.GetBaseDirectory(FiMaFileSystemBookingRepository.BookingDirectory),"2024_03");
 
             // Act
-            var actualDirectory = test.GetBookingMonthDirectory(new DateTime(2024, 3, 20));
+            var actualDirectory = test.GetBookingMonthDirectory(new DateTime(2024, 3, 20), false);
 
             // Assert
             Assert.Equal(expectedDirectory, actualDirectory);

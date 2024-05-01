@@ -9,12 +9,15 @@ namespace Net.Gwiasda.FiMa
     public class CreateMonthlyReportWorkflow : ICreateMonthlyReportWorkflow
     {
         private readonly ICategoryManager _categoryManager;
+        private readonly IBookingManager _bookingManager;
         private readonly IGetBookingsFromMonthWorkflow _getBookingsFromMonthWorkflow;
 
-        public CreateMonthlyReportWorkflow(ICategoryManager categoryManager, IGetBookingsFromMonthWorkflow getBookingsFromMonthWorkflow)
+        public CreateMonthlyReportWorkflow(ICategoryManager categoryManager, 
+            IGetBookingsFromMonthWorkflow getBookingsFromMonthWorkflow, IBookingManager bookingManager)
         {
             _categoryManager = categoryManager ?? throw new ArgumentNullException(nameof(categoryManager));
             _getBookingsFromMonthWorkflow = getBookingsFromMonthWorkflow ?? throw new ArgumentNullException(nameof(getBookingsFromMonthWorkflow));
+            _bookingManager = bookingManager ?? throw new ArgumentNullException(nameof(bookingManager));
         }
 
         public async Task<MonthlyReport> CreateMonthlyReportAsync(DateTime month)
@@ -25,6 +28,9 @@ namespace Net.Gwiasda.FiMa
             var bookings = await _getBookingsFromMonthWorkflow.GetBookingsFromMonthAsync(month);
             var costCategoryReports = GetCategoryReports(true, bookings, categories);
             var incomeCategoryReports = GetCategoryReports(false, bookings, categories);
+
+            await AddRecurringBookings(month, costCategoryReports, categories, true);
+            await AddRecurringBookings(month,incomeCategoryReports, categories, false);
 
             ForceParentCategoriesExist(costCategoryReports, categories);
             ForceParentCategoriesExist(incomeCategoryReports, categories);
@@ -114,6 +120,57 @@ namespace Net.Gwiasda.FiMa
                     }
                 }
             }
+        }
+        internal async Task AddRecurringBookings(DateTime month, List<CategoryReport> categoryReports, IEnumerable<FinanceCategory> categories, bool handleCosts)
+        {
+            var recurringBookings = await _bookingManager.GetRecurringBookings();
+            foreach (var recurringBooking in recurringBookings)
+            {
+                if(handleCosts != recurringBooking.IsCost)
+                    continue;
+
+                if(!IsInMonth(recurringBooking, month))
+                    continue;
+
+                var categoryReport = GetCategoryReport(recurringBooking, categoryReports, categories);
+                categoryReport.RecurringBookings.Add(recurringBooking);
+                categoryReport.Sum += recurringBooking.Amount;
+            }
+        }
+
+        internal bool IsInMonth(RecurringBooking recurringBooking, DateTime month)
+        {
+            var bookingMonth = new DateTime(recurringBooking.Timestamp.Year, recurringBooking.Timestamp.Month, 1);
+            month = new DateTime(month.Year, month.Month, 1);
+
+            if (bookingMonth > month) 
+                return false;
+
+            if (bookingMonth == month) 
+                return true;
+
+            if (recurringBooking.EndDate.HasValue)
+            {
+                var endDate = new DateTime(recurringBooking.EndDate.Value.Year, recurringBooking.EndDate.Value.Month, 1);
+                if (endDate < month)
+                    return false;
+            }
+
+            while(bookingMonth < month)
+            {
+                if (recurringBooking.RecurringType == RecurringType.Yearly)
+                    bookingMonth = bookingMonth.AddYears(1);
+                else if (recurringBooking.RecurringType == RecurringType.Quarter)
+                    bookingMonth = bookingMonth.AddMonths(3);
+                else if (recurringBooking.RecurringType == RecurringType.Monthly)
+                    bookingMonth = bookingMonth.AddMonths(1);
+                else
+                    return false;
+                
+                if (bookingMonth == month)
+                    return true;
+            }
+            return false;
         }
 
         internal List<CategoryReport> GetCategoryReports(bool isCostCategory, IEnumerable<Booking> bookings, IEnumerable<FinanceCategory> categories)

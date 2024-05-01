@@ -12,13 +12,15 @@ namespace net.gwiasda.fima.reports.tests
     {
         private Mock<ICategoryManager> _categoryManagerMock;
         private Mock<IGetBookingsFromMonthWorkflow> _getBookingsFromMonthWorkflowMock;
+        private Mock<IBookingManager> _bookingManagerMock;
         private CreateMonthlyReportWorkflow _test;
 
         private void Setup()
         {
             _categoryManagerMock = new Mock<ICategoryManager>();
             _getBookingsFromMonthWorkflowMock = new Mock<IGetBookingsFromMonthWorkflow>();
-            _test = new CreateMonthlyReportWorkflow(_categoryManagerMock.Object, _getBookingsFromMonthWorkflowMock.Object);
+            _bookingManagerMock = new Mock<IBookingManager>();
+            _test = new CreateMonthlyReportWorkflow(_categoryManagerMock.Object, _getBookingsFromMonthWorkflowMock.Object, _bookingManagerMock.Object);
         }
 
         [Fact]
@@ -124,6 +126,83 @@ namespace net.gwiasda.fima.reports.tests
 
             item = categoryReports.Where(cr => cr.Category.Id == rootId).First();
             Assert.Equal(45.9m, item.Sum);
+        }
+        [Fact]
+        public void IsInMonth_startDate_after_month()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2024, 6, 1), EndDate = new DateTime(2024, 5, 1), RecurringType = RecurringType.Monthly };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.False(result);
+        }
+        [Fact]
+        public void IsInMonth_ended_before_month()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2020, 6, 1), EndDate = new DateTime(2024, 4, 30), RecurringType = RecurringType.Monthly };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.False(result);
+        }
+        [Fact]
+        public void IsInMonth_year_wrong_month()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2020, 4, 1), RecurringType = RecurringType.Yearly };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.False(result);
+        }
+        [Fact]
+        public void IsInMonth_year_true()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2020, 5, 27), RecurringType = RecurringType.Yearly };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.True(result);
+        }
+        [Fact]
+        public void IsInMonth_quarter_wrong_month()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2020, 4, 1), RecurringType = RecurringType.Quarter };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.False(result);
+        }
+        [Fact]
+        public void IsInMonth_quarter_true()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2024, 2, 27), RecurringType = RecurringType.Quarter };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.True(result);
+        }
+        [Fact]
+        public void IsInMonth_monthly_true()
+        {
+            Setup();
+            var month = new DateTime(2024, 5, 1);
+            var recurringBooking = new RecurringBooking { Timestamp = new DateTime(2021, 2, 27), RecurringType = RecurringType.Monthly };
+
+            var result = _test.IsInMonth(recurringBooking, month);
+
+            Assert.True(result);
         }
     }
 }

@@ -14,15 +14,19 @@ namespace Net.Gwiasda.Local.UI.ViewModel.FiMa
             {
                 ChildCategories.Add(new CategoryReportViewModel(childCategory));
             }
+            foreach(var recurringBooking in categoryReport.RecurringBookings)
+            {
+                Bookings.Add(new BookingViewModel(recurringBooking));
+            }
             foreach (var booking in categoryReport.Bookings)
             {
-                Bookings.Add(booking);
+                Bookings.Add(new BookingViewModel(booking));
             }
         }
         public FinanceCategoryViewModel Category { get; set; }
         public bool IsCost { get; set; }
         public decimal Sum { get; set; }
         public List<CategoryReportViewModel> ChildCategories { get; } = new List<CategoryReportViewModel>();
-        public List<Booking> Bookings { get; } = new List<Booking>();
+        public List<BookingViewModel> Bookings { get; } = new List<BookingViewModel>();
     }
 }

@@ -5,6 +5,7 @@
         None = 0,
         Once = 1,
         Monthly = 2,
-        Yearly = 3
+        Quarter = 3,
+        Yearly = 4
     }
 }

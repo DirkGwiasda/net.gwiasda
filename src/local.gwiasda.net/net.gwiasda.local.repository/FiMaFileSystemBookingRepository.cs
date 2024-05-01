@@ -33,7 +33,7 @@ namespace Net.Gwiasda.Local.Repository
 
         public async Task<IEnumerable<Booking>> GetBookingsFromDay(DateTime date)
         {
-            var bookingFileName = GetFQBookingFileName(date);
+            var bookingFileName = GetFQBookingFileName(date, false);
             
             if(!File.Exists(bookingFileName)) return Enumerable.Empty<Booking>();
 
@@ -70,7 +70,7 @@ namespace Net.Gwiasda.Local.Repository
         internal async Task WriteBookingsFromDay(IEnumerable<Booking> bookings)
         {
             var json = JsonSerializer.Serialize(bookings);
-            var bookingFileName = GetFQBookingFileName(bookings.First().Timestamp);
+            var bookingFileName = GetFQBookingFileName(bookings.First().Timestamp, true);
             await File.WriteAllTextAsync(bookingFileName, json);
         }
         internal async Task WriteRecurringBookings(IEnumerable<RecurringBooking> bookings)
@@ -82,13 +82,13 @@ namespace Net.Gwiasda.Local.Repository
 
         internal string GetFQRecurringBookingFileName()
             => Path.Combine(base.GetBaseDirectory(BookingDirectory), $"recurring{BookingFileExtension}");
-        internal string GetFQBookingFileName(DateTime date)
-            => Path.Combine(GetBookingMonthDirectory(date), $"{date:yyyy_MM_dd}{BookingFileExtension}");
-        internal string GetBookingMonthDirectory(DateTime date)
+        internal string GetFQBookingFileName(DateTime date, bool createDirectoryIfNotExists)
+            => Path.Combine(GetBookingMonthDirectory(date, createDirectoryIfNotExists), $"{date:yyyy_MM_dd}{BookingFileExtension}");
+        internal string GetBookingMonthDirectory(DateTime date, bool createIfNotExists)
         {
             var baseDir = base.GetBaseDirectory(BookingDirectory);
             var directory = Path.Combine(baseDir, $"{date:yyyy_MM}");
-            if(!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+            if(createIfNotExists && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
             return directory;
         }
     }

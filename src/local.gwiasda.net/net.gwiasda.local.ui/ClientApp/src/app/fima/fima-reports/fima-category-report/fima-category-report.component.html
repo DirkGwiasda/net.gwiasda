@@ -2,7 +2,7 @@
   <div class="container marginBottomSmall">
     <div class="flexItem" [style]="getSpaceWidth(0)"></div>
     <div class="flexItem borderBottom link" (click)="showBookings()" [style]="getTextWidth(0)">
-      {{ this.categoryReport?.category?.name }}
+      {{ getName() }}
     </div>
     <div class="flexItem borderBottom currency">{{ this.categoryReport?.sum | number: '1.2-2' }} €</div>
   </div>

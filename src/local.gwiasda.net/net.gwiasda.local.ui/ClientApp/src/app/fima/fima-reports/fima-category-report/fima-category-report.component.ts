@@ -42,4 +42,31 @@ export class FiMaCategoryReportComponent {
 
     dialogRef.componentInstance.categoryReport = this.categoryReport;
   }
+  getName() {
+    if (!this.categoryReport?.category) {
+      return '????';
+    }
+
+    if ((!this.categoryReport?.childCategories || this.categoryReport.childCategories.length === 0)
+      || (!this.categoryReport?.bookings || this.categoryReport.bookings.length === 0))
+      return this.categoryReport.category.name;
+
+    var sumBookings = 0;
+    for (var i = 0; i < this.categoryReport.bookings.length; i++) {
+      sumBookings += this.categoryReport.bookings[i].amount;
+    }
+
+    const options: Intl.NumberFormatOptions = {
+      style: 'decimal',
+      useGrouping: true,
+      minimumFractionDigits: 2, // Mindestanzahl an Nachkommastellen
+      maximumFractionDigits: 2, // Maximale Anzahl an Nachkommastellen
+    };
+
+    // Formatierung mit den deutschen Optionen
+    const formattedNumber: string = sumBookings.toLocaleString('de-DE', options);
+
+
+    return this.categoryReport.category.name + ' (' + formattedNumber + ' €)';
+  }
 }
