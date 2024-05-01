@@ -1,9 +1,21 @@
 <div class="defaultContainer">
   <div class="defaultFlexItem"><h3>Monats-Report</h3></div>
-  <div class="defaultFlexItem"><h5>{{ this.monthlyReport.month  | date:'MM.yyyy' }}</h5></div>
+  <div class="defaultFlexItem" style="padding-top: 10px;">{{ this.date  | date:'MM.yyyy' }}</div>
+  <div class="defaultFlexItem">
+    <input [hidden]="true" matInput [matDatepicker]="picker" [(ngModel)]="date">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker startView="multi-year" [startAt]="date" (monthSelected)="closeDatePicker($event, picker)"></mat-datepicker>
+  </div>
+  <div class="defaultFlexItem">
+    <span class="material-symbols-form-button material-symbols-rounded" (click)="readMonthlyReport(this.date)">refresh</span>
+  </div>
 </div>
 
-<div class="defaultContainer">
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner class="spinner" mode="indeterminate"></mat-progress-spinner>
+</div>
+
+<div [hidden]="isLoading" class="defaultContainer">
   <div class="defaultFlexItem" style="width: 520px;">
     <h4>Kosten</h4>
     <table>

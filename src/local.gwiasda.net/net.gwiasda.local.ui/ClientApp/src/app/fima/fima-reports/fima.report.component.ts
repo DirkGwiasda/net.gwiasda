@@ -11,18 +11,26 @@ export class FiMaReportComponent implements OnInit {
   constructor(private dataService: FiMaReportsDataService) { }
 
   monthlyReport: MonthlyReport = new MonthlyReport();
+  dateDisplay: string = '';
+  date: Date = new Date();
+  isLoading: boolean = false;
 
   ngOnInit() {
-    this.readMonthlyReport(new Date());
+    this.readMonthlyReport(this.date);
   }
 
   readMonthlyReport(date: Date) {
-    console.log("now calling fimareport be..." + new Date());
+    this.isLoading = true;
     this.dataService.readMonthlyReportForDate(date).subscribe(
       report => {
         this.monthlyReport = report;
-        console.log(new Date());
-        console.log(this.monthlyReport);
+        this.isLoading = false;
       });
+  }
+  closeDatePicker(eventData: any, dp?: any) {
+
+    this.date = new Date(eventData);
+    dp.close();
+    this.readMonthlyReport(this.date);
   }
 }

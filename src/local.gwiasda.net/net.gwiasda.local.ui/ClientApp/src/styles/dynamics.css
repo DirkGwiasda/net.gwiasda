@@ -5,3 +5,19 @@
 .link:hover {
     text-decoration: underline;
 }
+.loading-container {
+  display: flex;
+  justify-content: center; /* horizontal zentrieren */
+  align-items: center; /* vertikal zentrieren */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(160, 160, 160, 0.4); /* Hintergrund mit Transparenz */
+  z-index: 9999; /* sicherstellen, dass der Spinner über allem liegt */
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #cccccc;
+}

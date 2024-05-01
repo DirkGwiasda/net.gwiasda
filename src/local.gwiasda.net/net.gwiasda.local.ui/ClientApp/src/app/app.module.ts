@@ -32,6 +32,7 @@ import { FiMaCategoryReportBookingsComponent } from './fima/fima-reports/fima-ca
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 registerLocaleData(localeDe);
 
@@ -65,6 +66,7 @@ registerLocaleData(localeDe);
     ReactiveFormsModule,
     MaterialModule,
     BrowserAnimationsModule,
+    MatProgressSpinnerModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'logs', component: LoggingComponent, pathMatch: 'full' },
