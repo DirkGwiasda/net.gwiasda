@@ -29,6 +29,9 @@ namespace Net.Gwiasda.FiMa
             ForceParentCategoriesExist(costCategoryReports, categories);
             ForceParentCategoriesExist(incomeCategoryReports, categories);
 
+            AddSumToParentSum(costCategoryReports);
+            AddSumToParentSum(incomeCategoryReports);
+
             var trees = CreateCategoryTrees(costCategoryReports);
             result.CostCategoryReports.AddRange(trees);
 
@@ -61,7 +64,6 @@ namespace Net.Gwiasda.FiMa
 
                 parentCategoryReport.ChildCategories.Add(categoryReport);
                 handledIds.Add(categoryReport.Category.Id);
-                parentCategoryReport.Sum += categoryReport.Sum;
 
                 HandleChildCategories(categoryReport, categoryReports, handledIds);
             }
@@ -92,6 +94,22 @@ namespace Net.Gwiasda.FiMa
                 items2add.Add(parentCategoryReport);
                 handledIds.Add(parentCategoryReport.Category.Id);
                 ForceParentCategoryExist(parentCategoryReport, categoryReports, handledIds, categories, items2add);
+            }
+        }
+        internal void AddSumToParentSum(List<CategoryReport> categoryReports)
+        {
+            var maxHierarchy = categoryReports.Max(cr => cr.Category.Hierarchy);
+            for (int i = maxHierarchy; i > 0; i--)
+            {
+                var hierarchyItems = categoryReports.Where(cr => cr.Category.Hierarchy == i);
+               foreach(var currentCategoryReport in hierarchyItems)
+                {
+                    var parent = categoryReports.FirstOrDefault(cr => cr.Category.Id == currentCategoryReport.Category.ParentId);
+                    if(parent != null)
+                    {
+                        parent.Sum += currentCategoryReport.Sum;
+                    }
+                }
             }
         }
 

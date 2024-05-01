@@ -80,5 +80,50 @@ namespace net.gwiasda.fima.reports.tests
             var child = parent.ChildCategories.First();
             Assert.Equal(childId, child.Category.Id);
         }
+        [Fact]
+        public void AddSumToParentSum()
+        {
+            Setup();
+            var rootId = Guid.NewGuid();
+            var root2Id = Guid.NewGuid();
+            var childId = Guid.NewGuid();
+            var childChild1Id = Guid.NewGuid();
+            var childChild2Id = Guid.NewGuid();
+            var categories = new List<FinanceCategory>
+            {
+                new CostCategory { Id = childChild2Id, Hierarchy = 2, ParentId = childId, Name = "childChild2" },
+                new CostCategory { Id = rootId, Name = "root" },
+                new CostCategory { Id = childId, Hierarchy = 1, ParentId = rootId, Name = "child" },
+                new CostCategory { Id = childChild1Id, Hierarchy = 2, ParentId = childId, Name = "childChild1" },
+                new CostCategory { Id = root2Id, Name = "root2" }
+            };
+            var categoryReports = new List<CategoryReport>
+            {
+                new CategoryReport { Category = categories[4], Sum = 38.2m },
+                new CategoryReport { Category = categories[2], Sum = 12.3m },
+                new CategoryReport { Category = categories[0], Sum = 8.6m },
+                new CategoryReport { Category = categories[1], Sum = 20 },
+                new CategoryReport { Category = categories[3], Sum = 5 },
+            };
+
+
+            _test.AddSumToParentSum(categoryReports);
+
+
+            var item = categoryReports.Where(cr => cr.Category.Id == root2Id).First();
+            Assert.Equal(38.2m, item.Sum);
+
+            item = categoryReports.Where(cr => cr.Category.Id == childChild1Id).First();
+            Assert.Equal(5, item.Sum);
+
+            item = categoryReports.Where(cr => cr.Category.Id == childChild2Id).First();
+            Assert.Equal(8.6m, item.Sum);
+
+            item = categoryReports.Where(cr => cr.Category.Id == childId).First();
+            Assert.Equal(25.9m, item.Sum);
+
+            item = categoryReports.Where(cr => cr.Category.Id == rootId).First();
+            Assert.Equal(45.9m, item.Sum);
+        }
     }
 }
