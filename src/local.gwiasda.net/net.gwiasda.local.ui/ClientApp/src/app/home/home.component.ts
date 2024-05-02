@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Link } from './link';
 
 @Component({
   selector: 'app-home',

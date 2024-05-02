@@ -2,6 +2,7 @@
 
 using Net.Gwiasda.FiMa;
 using Net.Gwiasda.FiMa.Categories;
+using Net.Gwiasda.Links;
 using Net.Gwiasda.Local.Repository;
 using Net.Gwiasda.Logging;
 
@@ -20,6 +21,9 @@ builder.Services.AddSingleton<IBookingManager, BookingManager>();
 builder.Services.AddSingleton<IGetBookingsFromDateWorkflow, GetBookingsFromDateWorkflow>();
 builder.Services.AddSingleton<IGetBookingsFromMonthWorkflow, GetBookingsFromMonthWorkflow>();
 builder.Services.AddSingleton<ICreateMonthlyReportWorkflow, CreateMonthlyReportWorkflow>();
+builder.Services.AddSingleton<ILinkRepository, FileSystemLinkRepository>();
+builder.Services.AddSingleton<ILinkValidator, LinkValidator>();
+builder.Services.AddSingleton<ILinkManager, LinkManager>();
 
 var app = builder.Build();
 

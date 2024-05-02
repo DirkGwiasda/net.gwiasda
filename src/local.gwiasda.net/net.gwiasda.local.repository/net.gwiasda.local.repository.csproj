@@ -11,6 +11,7 @@
     <ProjectReference Include="..\net.gwiasda.fima.bookings\net.gwiasda.fima.bookings.csproj" />
     <ProjectReference Include="..\net.gwiasda.fima.categories\net.gwiasda.fima.categories.csproj" />
     <ProjectReference Include="..\net.gwiasda.fima.reports\net.gwiasda.fima.reports.csproj" />
+    <ProjectReference Include="..\net.gwiasda.links\net.gwiasda.links.csproj" />
     <ProjectReference Include="..\net.gwiasda.logging.contracts\net.gwiasda.logging.contracts.csproj" />
   </ItemGroup>
 
