@@ -17,16 +17,16 @@ namespace Net.Gwiasda.Links
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
-        public async Task CreateOrUpdateCategoryAsync(Link link)
+        public async Task CreateOrUpdateLinkAsync(Link link)
         {
             _validator.Validate(link);
             await _repository.CreateOrUpdateCategoryAsync(link);
         }
 
-        public async Task DeleteCategoryAsync(Guid id)
+        public async Task DeleteLinkAsync(Guid id)
             => await _repository.DeleteCategoryAsync(id);
 
-        public Task<IEnumerable<Link>> GetCategoriesAsync()
+        public Task<IEnumerable<Link>> GetLinksAsync()
             => _repository.GetCategoriesAsync();
     }
 }

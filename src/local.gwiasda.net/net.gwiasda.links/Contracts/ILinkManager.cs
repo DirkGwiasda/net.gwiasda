@@ -8,8 +8,8 @@ namespace Net.Gwiasda.Links
 {
     public interface ILinkManager
     {
-        Task CreateOrUpdateCategoryAsync(Link link);
-        Task DeleteCategoryAsync(Guid id);
-        Task<IEnumerable<Link>> GetCategoriesAsync();
+        Task CreateOrUpdateLinkAsync(Link link);
+        Task DeleteLinkAsync(Guid id);
+        Task<IEnumerable<Link>> GetLinksAsync();
     }
 }
