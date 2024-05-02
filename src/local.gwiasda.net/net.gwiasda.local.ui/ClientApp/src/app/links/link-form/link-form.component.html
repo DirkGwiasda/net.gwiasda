@@ -1,0 +1,26 @@
+
+<table>
+  <tbody>
+    <tr>
+      <td class="formName">ID:</td>
+      <td class="formField"><label>{{link?.id}}</label></td>
+    </tr>
+    <tr>
+      <td class="formName">Name:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="link.text" /></td>
+    </tr>
+    <tr>
+      <td class="formName">URL:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="link.url" /></td>
+    </tr>
+    <tr>
+      <td class="formName">Bechreibung:</td>
+      <td class="formField"><input class="formInput" type="text" [(ngModel)]="link.description" /></td>
+    </tr>
+    <tr>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="cancel()">check_box_outline_blank</span></td>
+      <td>&nbsp;</td>
+      <td class="tableButton"><span class="material-symbols-form-button material-symbols-rounded" (click)="save()">save</span></td>
+    </tr>
+  </tbody>
+</table>

@@ -21,6 +21,12 @@
 .marginBottomMedium {
   margin-bottom: 20px;
 }
+.marginLeftSmall {
+  left: 10px;
+}
+.marginLeftMedium {
+  left: 20px;
+}
 .marginLRSmall {
   margin-bottom: 5px;
   margin-bottom: 5px;
@@ -31,6 +37,9 @@
 }
 .paddingLSmall {
   padding-left: 5px;
+}
+.paddingLMedium {
+  padding-left: 20px;
 }
 .paddingRSmall {
   padding-right: 5px;

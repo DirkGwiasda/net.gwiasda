@@ -28,6 +28,8 @@ import { FiMaRecurringBookingOverviewComponent } from './fima/fima-booking/fima-
 import { FiMaReportComponent } from './fima/fima-reports/fima.report.component';
 import { FiMaCategoryReportComponent } from './fima/fima-reports/fima-category-report/fima-category-report.component';
 import { FiMaCategoryReportBookingsComponent } from './fima/fima-reports/fima-category-report-bookings/fima-category-report-bookings.component';
+import { LinksComponent } from './links/links.component';
+import { LinkFormComponent } from './links/link-form/link-form.component';
 
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -57,7 +59,9 @@ registerLocaleData(localeDe);
     FiMaRecurringBookingOverviewComponent,
     FiMaReportComponent,
     FiMaCategoryReportComponent,
-    FiMaCategoryReportBookingsComponent
+    FiMaCategoryReportBookingsComponent,
+    LinksComponent,
+    LinkFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

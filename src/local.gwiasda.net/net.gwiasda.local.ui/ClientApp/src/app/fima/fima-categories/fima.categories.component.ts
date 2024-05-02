@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FinanceCategory } from './finance_category';
 import { FiMaCategoryDataService } from './fima-category-data.service';
+import { GuidService } from '../../guid-service';
 
 @Component({
   selector: 'app-fima-categories',
@@ -8,9 +9,8 @@ import { FiMaCategoryDataService } from './fima-category-data.service';
 })
 export class FiMaCategoriesComponent implements OnInit {
 
-  constructor(dataService: FiMaCategoryDataService) { this.dataService = dataService; }
+  constructor(private dataService: FiMaCategoryDataService, private guidService: GuidService) { }
 
-  dataService: FiMaCategoryDataService;
   costCategories: FinanceCategory[] = [];
   incomeCategories: FinanceCategory[] = [];
   editedCategory: FinanceCategory = new FinanceCategory();
@@ -20,20 +20,12 @@ export class FiMaCategoriesComponent implements OnInit {
     this.readIncomeCategories();
   }
 
-  generateGUID(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = Math.random() * 16 | 0,
-        v = c === 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-
   async handleSaved() {
     if (this.editedCategory.description == null || this.editedCategory.description == '')
       this.editedCategory.description = this.editedCategory.name;
 
     if(this.editedCategory.id == null || this.editedCategory.id == '')
-      this.editedCategory.id = this.generateGUID();
+      this.editedCategory.id = this.guidService.generateGUID();
 
     this.dataService.write(this.editedCategory).subscribe(category => {
         this.readCostCategories();

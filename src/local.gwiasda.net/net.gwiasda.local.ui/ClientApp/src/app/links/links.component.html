@@ -1,0 +1,16 @@
+<div>
+  <h3>Links</h3>
+  <div><span class="material-symbols-form-button material-symbols-rounded" (click)="addLink()">add</span></div>
+
+  <ul>
+    <ng-container *ngFor="let link of links">
+      <li>
+        <a [href]="link.url" target="_blank" class="link" [title]="link.description">{{ link.text }}</a>
+        &nbsp;
+        <span class="material-symbols-form-button material-symbols-rounded paddingLMedium" style="font-size:14px;" (click)="editLink(link)">edit</span>
+        &nbsp;
+        <span class="material-symbols-form-button material-symbols-rounded paddingLMedium" style="font-size:14px;" (click)="deleteLink(link)">delete</span>
+      </li>
+    </ng-container>
+  </ul>
+</div>

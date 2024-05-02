@@ -52,7 +52,6 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 throw;
             }
         }
-        [HttpPost]
         public async Task Delete(string? id)
         {
             try

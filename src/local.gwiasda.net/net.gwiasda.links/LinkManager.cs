@@ -26,7 +26,11 @@ namespace Net.Gwiasda.Links
         public async Task DeleteLinkAsync(Guid id)
             => await _repository.DeleteCategoryAsync(id);
 
-        public Task<IEnumerable<Link>> GetLinksAsync()
-            => _repository.GetCategoriesAsync();
+        public async Task<IEnumerable<Link>> GetLinksAsync()
+        {
+            var links = (await _repository.GetCategoriesAsync()).ToList();
+            links.Sort((a, b) => a.Text.CompareTo(b.Text));
+            return links;
+        }
     }
 }
