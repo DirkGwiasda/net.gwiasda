@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Net.Gwiasda.Links
+﻿namespace Net.Gwiasda.Links
 {
     public interface ILinkRepository
     {
-        Task CreateOrUpdateCategoryAsync(Link link);
-        Task DeleteCategoryAsync(Guid id);
-        Task<IEnumerable<Link>> GetCategoriesAsync();
+        Task CreateOrUpdateLinkAsync(Link link);
+        Task DeleteLinkAsync(Guid id);
+        Task<IEnumerable<Link>> GeLinksAsync();
     }
 }

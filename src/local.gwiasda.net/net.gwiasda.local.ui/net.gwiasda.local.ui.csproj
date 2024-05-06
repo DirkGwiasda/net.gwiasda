@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\net.gwiasda.appointments\net.gwiasda.appointments.csproj" />
     <ProjectReference Include="..\net.gwiasda.fima.reports\net.gwiasda.fima.reports.csproj" />
     <ProjectReference Include="..\net.gwiasda.local.repository\net.gwiasda.local.repository.csproj" />
     <ProjectReference Include="..\net.gwiasda.logging.contracts\net.gwiasda.logging.contracts.csproj" />

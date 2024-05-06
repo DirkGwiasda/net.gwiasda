@@ -1,5 +1,4 @@
-//using Net.Gwiasda;
-
+using Net.Gwiasda.Appointments;
 using Net.Gwiasda.FiMa;
 using Net.Gwiasda.FiMa.Categories;
 using Net.Gwiasda.Links;
@@ -24,6 +23,10 @@ builder.Services.AddSingleton<ICreateMonthlyReportWorkflow, CreateMonthlyReportW
 builder.Services.AddSingleton<ILinkRepository, FileSystemLinkRepository>();
 builder.Services.AddSingleton<ILinkValidator, LinkValidator>();
 builder.Services.AddSingleton<ILinkManager, LinkManager>();
+builder.Services.AddSingleton<IAppointmentRepository, FileSystemAppointmentRepository>();
+builder.Services.AddSingleton<IAppointmentValidator, AppointmentValidator>();
+builder.Services.AddSingleton<IAppointmentManager, AppointmentManager>();
+builder.Services.AddSingleton<IGetAppointmentsForTimespanWorkflow, GetAppointmentsForTimespanWorkflow>();
 
 var app = builder.Build();
 

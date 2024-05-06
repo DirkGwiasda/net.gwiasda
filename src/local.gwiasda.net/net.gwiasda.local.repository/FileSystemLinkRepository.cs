@@ -14,56 +14,59 @@ namespace Net.Gwiasda.Local.Repository
 
         private readonly object _sync = new object();
 
-        public Task CreateOrUpdateCategoryAsync(Link link)
+        public Task CreateOrUpdateLinkAsync(Link link)
         {
             lock(_sync)
             {
-                var links = GetCategoriesAsync().Result.ToList();
+                var links = GeLinksAsync().Result.ToList();
                 var existing = links.FirstOrDefault(l => l.Id == link.Id);
                 if(existing != null)
                     links.Remove(existing);
 
                 links.Add(link);
 
-                SaveCategories(links);
+                SaveLinks(links);
             }
             return Task.CompletedTask;
         }
 
-        public Task DeleteCategoryAsync(Guid id)
+        public Task DeleteLinkAsync(Guid id)
         {
             lock (_sync)
             {
-                var links = GetCategoriesAsync().Result.ToList();
+                var links = GeLinksAsync().Result.ToList();
                 var existing = links.FirstOrDefault(l => l.Id == id);
                 if (existing != null)
                 {
                     links.Remove(existing);
-                    SaveCategories(links);
+                    SaveLinks(links);
                 }
             }
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<Link>> GetCategoriesAsync()
+        public async Task<IEnumerable<Link>> GeLinksAsync()
         {
-            var fileName = GetCostCategoriesFileName();
+            var fileName = GetLinksFileName();
             if(!File.Exists(fileName))
                 return Enumerable.Empty<Link>();
 
-            var json = await File.ReadAllTextAsync(GetCostCategoriesFileName());
+            var json = await File.ReadAllTextAsync(GetLinksFileName());
             if(string.IsNullOrWhiteSpace(json))
                 return Enumerable.Empty<Link>();
 
             return JsonSerializer.Deserialize<IEnumerable<Link>>(json) ?? Enumerable.Empty<Link>();
         }
 
-        private void SaveCategories(IEnumerable<Link> links)
+        private void SaveLinks(IEnumerable<Link> links)
         {
+            if (!Directory.Exists(FileSystemRepository.RootDataDirectory))
+                Directory.CreateDirectory(FileSystemRepository.RootDataDirectory);
+
             var json = JsonSerializer.Serialize(links);
-            File.WriteAllText(GetCostCategoriesFileName(), json);
+            File.WriteAllText(GetLinksFileName(), json);
         }
 
-        private string GetCostCategoriesFileName() => Path.Combine(FileSystemRepository.RootDataDirectory, FileName);
+        private string GetLinksFileName() => Path.Combine(FileSystemRepository.RootDataDirectory, FileName);
     }
 }
