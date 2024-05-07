@@ -1,29 +1,32 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Appointment } from '../appointment';
-import { AppointmentDataService } from '../appointment-data.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-appointments-form',
-  templateUrl: './appointments-form.component.html',
-  styleUrls: ['./appointments-form.component.css']
+  templateUrl: './appointments-form.component.html'
 })
 export class AppointmentsFormComponent {
 
-  constructor(dataService: AppointmentDataService) { this.dataService = dataService; }
+  constructor(private dialogRef: MatDialogRef<AppointmentsFormComponent>) { }
 
+  @Input() appointment: Appointment = new Appointment();
   @Output() saved = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<string>();
 
-  dataService: AppointmentDataService;
-  appointment: Appointment = new Appointment();
-  time: string = '';
+  time: string = '00:00';
 
   async save() {
 
     this.handleTime();
-    
-    await this.dataService.write(this.appointment);
     this.saved.emit();
+    this.close();
   }
+  async delete() {
+    this.deleted.emit(this.appointment.id);
+    this.close();
+  }
+  
   handleTime() {
     var data = this.time.split(":");
     if (data && data.length == 2) {
@@ -33,9 +36,12 @@ export class AppointmentsFormComponent {
       if (isNaN(hours) || isNaN(minutes))
         alert("invalid time");
       else {
-        this.appointment?.timestamp?.setHours(hours);
-        this.appointment?.timestamp?.setMinutes(minutes);
+        this.appointment?.date?.setHours(hours);
+        this.appointment?.date?.setMinutes(minutes);
       }
     }
+  }
+  close() {
+    this.dialogRef.close();
   }
 }

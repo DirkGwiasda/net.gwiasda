@@ -1,7 +1,13 @@
 export class Appointment {
   id: string = '';
-  timestamp: Date = new Date();
+  date: Date = new Date();
+  endDate: Date | null = null;
   title: string = '';
-  additionalText: string = '';
-  googleMapsLink: string = '';
+  text: string | null = null;
+  who: string = '-';
+  recurringType: string = '-';
+  googleMapsLink: string | null = null;
+  notInSchoolHolidays: boolean = false;
+  keepAppointmentAfterItsEnd: boolean = false;
+  isSchoolHoliday: boolean = false;
 }

@@ -5,7 +5,7 @@
         public Guid Id { get; set; } = new Guid();
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; } = DateTime.MinValue;
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
         public Person Who { get; set; } = Person.None;
         public RecurringType RecurringType { get; set; } = RecurringType.None;
         public string? GoogleMapsLink { get; set; }

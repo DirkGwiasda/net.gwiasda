@@ -11,6 +11,7 @@ const PROXY_CONFIG = [
       "/fimabooking",
       "/fimareport",
       "/link",
+      "/appointments",
    ],
     target: target,
     secure: false,
