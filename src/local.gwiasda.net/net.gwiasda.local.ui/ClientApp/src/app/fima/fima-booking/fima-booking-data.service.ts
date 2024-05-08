@@ -20,11 +20,9 @@ export class FiMaBookingDataService {
     headers.set('Content-Type', 'application/json');
     const url = 'fimabooking/Save';
 
-    var timestamp = this.dateService.renderDateTimeAsApiParameter(booking.timestamp);
-
     var data = {
       id: booking.id,
-      timestamp: timestamp,
+      timestamp: this.dateService.getUTCDate(booking.timestamp),
       text: booking.text,
       categoryId: booking.categoryId,
       isCost: booking.isCost,
@@ -33,8 +31,8 @@ export class FiMaBookingDataService {
       endDate: booking.endDate
     };
 
-    //console.log("writing booking:::::::::::::::::");
-    //console.log(JSON.stringify(data));
+    console.log("writing booking:::::::::::::::::");
+    console.log(JSON.stringify(data));
 
     await this.http.post(url, data, { headers }).toPromise();
   }
@@ -47,30 +45,11 @@ export class FiMaBookingDataService {
       year: 'numeric' // vierstelliges Jahr (yyyy)
     };
     const formattedDate = date.toLocaleDateString('en-GB', options).replace(/\//g, '');
-    return this.http.get<Map<string, Booking>>('fimabooking/GetBookingsFromToday?date=' + formattedDate, { headers })
-      .pipe(map(dataArray => {
-        const bookings = new Map<string, Booking>();
-        for (let key in dataArray) {
-          const booking = dataArray.get(key);
-          if (booking) {
-            var t = booking.timestamp;
-            booking.timestamp = this.dateService.getUTCDate(booking.timestamp);
-            bookings.set(key, booking);
-          }
-        }
-        return bookings;
-      }));
+    return this.http.get<Map<string, Booking>>('fimabooking/GetBookingsFromToday?date=' + formattedDate, { headers });
   }
 
   readRecurringBookings(): Observable<Booking[]> {
     const headers = this.getDefaultHeaders();
-    return this.http.get<Booking[]>('fimabooking/GetRecurringBookings', { headers })
-      .pipe(map(dataArray => {
-        for (let booking of dataArray) {
-          booking.timestamp = this.dateService.getUTCDate(booking.timestamp);
-        }
-        return dataArray;
-      }
-    ));
+    return this.http.get<Booking[]>('fimabooking/GetRecurringBookings', { headers });
   }
 }
