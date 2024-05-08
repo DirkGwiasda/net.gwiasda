@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Appointment } from './appointment';
 import { AppointmentsFormComponent } from './appointments-form/appointments-form.component';
 import { AppointmentDataService } from './appointment-data.service';
@@ -12,7 +12,7 @@ import { DateService } from '../date-service';
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css']
 })
-export class AppointmentsComponent {
+export class AppointmentsComponent implements OnInit {
 
   constructor(private dataService: AppointmentDataService, private guidService: GuidService, private dialog: MatDialog, private dateService: DateService) { }
 
@@ -20,8 +20,17 @@ export class AppointmentsComponent {
   appointments: Appointment[] = [];
   renderedAppointments: Appointment[] = [];
   showRecurring: boolean = true;
+  showFrom: Date = new Date();
+  showTo: Date = new Date();
 
   ngOnInit() {
+    this.showFrom.setDate((new Date()).getDate() - 7);
+    this.showTo.setDate((new Date()).getDate() + 28);
+    this.readAppointments();
+  }
+  refresh(dates: Date[]) {
+    this.showFrom = dates[0];
+    this.showTo = dates[1];
     this.readAppointments();
   }
   getDay(date: Date): string {
@@ -85,7 +94,7 @@ export class AppointmentsComponent {
 
   readAppointments() {
     console.log("readAppointments()");
-    this.dataService.getAppointmentsForTimespan(new Date(2024, 1, 1), new Date(2024, 12, 31)).subscribe(appointments => {
+    this.dataService.getAppointmentsForTimespan(this.showFrom, this.showTo).subscribe(appointments => {
       this.appointments = appointments ?? [];
       this.renderAppointments();
     });

@@ -35,6 +35,7 @@ import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AppointmentsTimeSpanSelectionComponent } from './appointments/appointments-timespan-selection/appointments-timespan-selection.component';
 
 registerLocaleData(localeDe);
 
@@ -61,7 +62,8 @@ registerLocaleData(localeDe);
     FiMaCategoryReportComponent,
     FiMaCategoryReportBookingsComponent,
     LinksComponent,
-    LinkFormComponent
+    LinkFormComponent,
+    AppointmentsTimeSpanSelectionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

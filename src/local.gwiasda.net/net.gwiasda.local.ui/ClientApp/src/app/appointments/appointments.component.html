@@ -7,6 +7,8 @@
   <label for="showRecurring">&nbsp;Wiederholende</label>
 </div>
 <hr />
+<app-appointments-timespan-selection [from]="showFrom" [to]="showTo" (selected)="refresh($event)"></app-appointments-timespan-selection>
+<hr />
 <table>
   <ng-container *ngFor="let a of renderedAppointments">
     <tr>

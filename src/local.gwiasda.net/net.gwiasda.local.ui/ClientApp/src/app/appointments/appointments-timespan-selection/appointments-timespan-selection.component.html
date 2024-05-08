@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="flexItem">
+    von:
+    <input type="text" [(ngModel)]="from" [matDatepicker]="picker" style="width:84px;" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </div>
+  <div class="flexItem">
+    bis:
+    <input type="text" [(ngModel)]="to" [matDatepicker]="toPicker" style="width:84px;" />
+    <mat-datepicker-toggle matIconSuffix [for]="toPicker"></mat-datepicker-toggle>
+    <mat-datepicker #toPicker></mat-datepicker>
+  </div>
+  <div class="flexItem"><span class="material-symbols-form-button material-symbols-rounded" (click)="refresh()">refresh</span></div>
+</div>

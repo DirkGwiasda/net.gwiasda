@@ -28,8 +28,8 @@
         internal List<Appointment> GetRelevantAppointments(IEnumerable<Appointment> appointments, DateTime start, DateTime end)
         => appointments.Where(a =>
                 a.RecurringType == RecurringType.None
-                && ((a.Date >= start && a.Date <= end) ||
-                    (a.Date < end && a.EndDate.HasValue && a.EndDate.Value > start))
+                && ((a.Date.Date >= start.Date && a.Date.Date <= end.Date) ||
+                    (a.Date.Date < end.Date && a.EndDate.HasValue && a.EndDate.Value.Date > start.Date))
             ).ToList();
         internal void HandleEndDates(DateTime start, DateTime end, List<Appointment> result)
         {
@@ -102,6 +102,8 @@
             var removeMe = new List<Appointment>();
             foreach(var appointment in appointments)
             {
+                if (appointment.RecurringType != RecurringType.None) continue;
+                    continue;
                 var endDate = appointment.EndDate ?? appointment.Date;
                 if (DateTime.Now - endDate > TimeSpan.FromDays(31))
                 {

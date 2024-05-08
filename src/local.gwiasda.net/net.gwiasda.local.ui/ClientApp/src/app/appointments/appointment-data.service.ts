@@ -25,6 +25,7 @@ export class AppointmentDataService {
       year: 'numeric' // vierstelliges Jahr (yyyy)
     };
     var url = 'appointments/GetAppointmentsForTimespan?from=' + this.dateService.renderDateAsApiParameter(from) + '&to=' + this.dateService.renderDateAsApiParameter(to);
+    console.log(url);
     return this.http.get<Appointment[]>(url, { headers });
   }
   getAppointment(id: string): Observable<Appointment | undefined> {
