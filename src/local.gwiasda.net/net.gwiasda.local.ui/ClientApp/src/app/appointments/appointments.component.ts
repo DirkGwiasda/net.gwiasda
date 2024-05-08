@@ -5,6 +5,7 @@ import { AppointmentDataService } from './appointment-data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { GuidService } from '../guid-service';
 import { Observable } from 'rxjs';
+import { DateService } from '../date-service';
 
 @Component({
   selector: 'app-appointments',
@@ -13,12 +14,12 @@ import { Observable } from 'rxjs';
 })
 export class AppointmentsComponent {
 
-  constructor(private dataService: AppointmentDataService, private guidService: GuidService, private dialog: MatDialog) { }
+  constructor(private dataService: AppointmentDataService, private guidService: GuidService, private dialog: MatDialog, private dateService: DateService) { }
 
   appointment: Appointment = new Appointment();
   appointments: Appointment[] = [];
   renderedAppointments: Appointment[] = [];
-  showRecurring: boolean = false;
+  showRecurring: boolean = true;
 
   ngOnInit() {
     this.readAppointments();
@@ -31,20 +32,14 @@ export class AppointmentsComponent {
     const days = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
     return days[nmbr];
   }
-  renderTime(appointment: Appointment): string {
+  renderDate(date: Date): string {
 
-    const date: Date = new Date(appointment.date);
+    var d = new Date(date);
+    var result = this.dateService.renderDate(d);
+    if (d.getUTCHours() != 0 || d.getUTCMinutes() != 0)
+      result += ' ' + this.dateService.renderTime(d);
 
-    const hours: number = date.getHours();
-    const minutes: number = date.getMinutes();
-
-    if (hours === 0 && minutes === 0)
-      return '';
-
-    const formattedHours: string = hours < 10 ? `0${hours}` : `${hours}`;
-    const formattedMinutes: string = minutes < 10 ? `0${minutes}` : `${minutes}`;
-
-    return ` ${formattedHours}:${formattedMinutes} Uhr`;
+    return result;
   }
   add() {
     var appointment = new Appointment();
@@ -78,7 +73,7 @@ export class AppointmentsComponent {
   async handleSaved() {
     if(!this.appointment.id || this.appointment.id === '')
       this.appointment.id = this.guidService.generateGUID();
-
+    console.log(this.appointment);
     await this.dataService.write(this.appointment)
       .then(() => this.readAppointments());
   }
@@ -89,6 +84,7 @@ export class AppointmentsComponent {
   }
 
   readAppointments() {
+    console.log("readAppointments()");
     this.dataService.getAppointmentsForTimespan(new Date(2024, 1, 1), new Date(2024, 12, 31)).subscribe(appointments => {
       this.appointments = appointments ?? [];
       this.renderAppointments();

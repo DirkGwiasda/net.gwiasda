@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Net.Gwiasda.Appointments;
 using Net.Gwiasda.FiMa;
 using Net.Gwiasda.Links;
@@ -32,11 +33,8 @@ namespace Net.Gwiasda.Local.UI.Controllers
         {
             try
             {
-                if (!DateTime.TryParseExact(from, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var fromDate))
-                    throw new ArgumentException($"Invalid from format '{from}'", nameof(from));
-
-                if (!DateTime.TryParseExact(to, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out var toDate))
-                    throw new ArgumentException($"Invalid from format '{to}'", nameof(to));
+                var fromDate = ParseDate(from);
+                var toDate = ParseDate(to);
 
                 return (await _getAppointmentsForTimespanWorkflow.GetAppointmentsForTimespanAsync(fromDate, toDate))
                     .Select(a => new AppointmentViewModel(a));
@@ -92,6 +90,15 @@ namespace Net.Gwiasda.Local.UI.Controllers
                 await _loggingManager.CreateErrorAsync(APP_NAME, exc).ConfigureAwait(true);
                 throw;
             }
+        }
+        protected DateTime ParseDate(string dateTime)
+        {
+            const string DATE_FORMAT = "yyyyMMdd";
+
+            if (!DateTime.TryParseExact(dateTime, DATE_FORMAT, CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
+                throw new ArgumentException($"Invalid date format '{dateTime}'.", nameof(dateTime));
+
+            return result;
         }
     }
 }

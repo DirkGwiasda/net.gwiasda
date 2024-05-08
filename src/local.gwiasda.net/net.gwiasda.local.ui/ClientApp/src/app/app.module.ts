@@ -74,7 +74,7 @@ registerLocaleData(localeDe);
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'logs', component: LoggingComponent, pathMatch: 'full' },
-      { path: 'appointments', component: AppointmentsComponent, pathMatch: 'full' },
+      { path: 'appointment', component: AppointmentsComponent, pathMatch: 'full' },
       { path: 'fima', component: FiMaComponent, pathMatch: 'full' },
     ])
   ],

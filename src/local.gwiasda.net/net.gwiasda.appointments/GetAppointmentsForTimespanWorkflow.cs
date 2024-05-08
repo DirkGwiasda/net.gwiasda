@@ -53,9 +53,9 @@
             foreach (var recurringAppointment in recurringAppointments)
             {
                 var current = recurringAppointment.Date;
-                while (current <= end.Date)
+                while (current.Date <= end.Date)
                 {
-                    if (current >= start.Date)
+                    if (current.Date >= start.Date)
                     {
                         var clone = recurringAppointment.Clone();
                         clone.Date = current;

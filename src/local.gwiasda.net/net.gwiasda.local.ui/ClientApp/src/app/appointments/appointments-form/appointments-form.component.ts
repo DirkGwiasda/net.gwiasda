@@ -1,20 +1,30 @@
-import { Component, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Appointment } from '../appointment';
 import { MatDialogRef } from '@angular/material/dialog';
+import { DateService } from '../../date-service';
 
 @Component({
   selector: 'app-appointments-form',
   templateUrl: './appointments-form.component.html'
 })
-export class AppointmentsFormComponent {
+export class AppointmentsFormComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<AppointmentsFormComponent>) { }
+  constructor(private dialogRef: MatDialogRef<AppointmentsFormComponent>, private dateService: DateService) { }
 
   @Input() appointment: Appointment = new Appointment();
   @Output() saved = new EventEmitter<void>();
   @Output() deleted = new EventEmitter<string>();
 
-  time: string = '00:00';
+  time: string = '';
+
+  ngOnInit() {
+
+    console.log("input: " + this.appointment.date);
+    this.time = this.dateService.renderTime(this.appointment.date);
+    console.log("result: " + this.time);
+  }
+
+  
 
   async save() {
 
@@ -36,8 +46,10 @@ export class AppointmentsFormComponent {
       if (isNaN(hours) || isNaN(minutes))
         alert("invalid time");
       else {
-        this.appointment?.date?.setHours(hours);
-        this.appointment?.date?.setMinutes(minutes);
+        var date = new Date(this.appointment?.date);
+        date.setHours(hours);
+        date.setMinutes(minutes);
+        this.appointment.date = date;
       }
     }
   }

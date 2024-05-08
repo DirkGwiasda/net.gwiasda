@@ -10,7 +10,7 @@
 <table>
   <ng-container *ngFor="let a of renderedAppointments">
     <tr>
-      <td class="appointmentsTimeStamp">{{ getDay(a.date) }} {{ a.date  | date:'dd.MM.yyyy' }}{{ renderTime(a) }}</td>
+      <td class="appointmentsTimeStamp">{{ getDay(a.date) }} {{ renderDate(a.date) }}</td>
       <td class="appointmentsTitle">
         <a class="link" (click)="edit(a.id)">{{ a.title }}</a>
       </td>
@@ -18,8 +18,8 @@
     <tr>
       <td colspan="2" class="appointmentsText">
         {{ a.who == '-' ? '' : a.who }}
-        
-        {{ a.endDate && a.endDate != a.date ? ('bis ' + getDay(a.endDate) + ' ' + (a.endDate | date:'dd.MM.yyyy')) : '' }}
+
+        {{ a.endDate && a.endDate != a.date ? ('bis ' + renderDate(a.endDate)) : '' }}
       </td>
     </tr>
   </ng-container>
