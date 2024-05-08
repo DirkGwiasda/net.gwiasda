@@ -16,10 +16,9 @@
       <td class="appointmentsTitle">
         <a class="link" (click)="edit(a.id)">{{ a.title }}</a>
       </td>
-    </tr>
-    <tr>
-      <td colspan="2" class="appointmentsText">
+      <td>
         {{ a.who == '-' ? '' : a.who }}
+
 
         {{ a.endDate && a.endDate != a.date ? ('bis ' + renderDate(a.endDate)) : '' }}
       </td>
