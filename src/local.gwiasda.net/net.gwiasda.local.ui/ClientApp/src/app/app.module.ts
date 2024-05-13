@@ -36,6 +36,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AppointmentsTimeSpanSelectionComponent } from './appointments/appointments-timespan-selection/appointments-timespan-selection.component';
+import { FoodDiaryComponent } from './fooddiary/food-diary.component';
 
 registerLocaleData(localeDe);
 
@@ -63,7 +64,8 @@ registerLocaleData(localeDe);
     FiMaCategoryReportBookingsComponent,
     LinksComponent,
     LinkFormComponent,
-    AppointmentsTimeSpanSelectionComponent
+    AppointmentsTimeSpanSelectionComponent,
+    FoodDiaryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -78,6 +80,7 @@ registerLocaleData(localeDe);
       { path: 'logs', component: LoggingComponent, pathMatch: 'full' },
       { path: 'appointment', component: AppointmentsComponent, pathMatch: 'full' },
       { path: 'fima', component: FiMaComponent, pathMatch: 'full' },
+      { path: 'food', component: FoodDiaryComponent, pathMatch: 'full' },
     ])
   ],
   providers: [

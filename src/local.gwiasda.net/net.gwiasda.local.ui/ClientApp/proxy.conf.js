@@ -12,6 +12,7 @@ const PROXY_CONFIG = [
       "/fimareport",
       "/link",
       "/appointments",
+      "/fooddiary"
    ],
     target: target,
     secure: false,
